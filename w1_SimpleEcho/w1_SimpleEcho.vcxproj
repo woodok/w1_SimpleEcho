@@ -80,6 +80,7 @@
   <ItemGroup>
     <ClCompile Include="eClient.cpp" />
     <ClCompile Include="eServer.cpp" />
+    <ClCompile Include="test_arraysplit.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="readme.txt" />

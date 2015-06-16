@@ -17,14 +17,14 @@ private:
 public:
 	User(char * _name, char * _nick, int _roomNum) : roomNumber(_roomNum)
 	{
-		strncpy(name, _name, NAME_SIZE);
-		strncpy(nick, _nick, NICK_SIZE);
+		strncpy_s(name, _name, NAME_SIZE);
+		strncpy_s(nick, _nick, NICK_SIZE);
 		userKey = createdObjNum++;
 	}
 	User() : roomNumber(0)
 	{
-		strncpy(name, "Default", NAME_SIZE);
-		strncpy(nick, "Default", NICK_SIZE);
+		strncpy_s(name, "Default", NAME_SIZE);
+		strncpy_s(nick, "Default", NICK_SIZE);
 		userKey = createdObjNum++;
 	}
 	
@@ -60,11 +60,11 @@ int User::get_userKey() const
 }
 void User::set_name(char * _newName)
 {
-	strncpy(name, _newName, User::NAME_SIZE);
+	strncpy_s(name, _newName, User::NAME_SIZE);
 };
 void User::set_nick(char * _newNick)
 {
-	strncpy(nick, _newNick, User::NICK_SIZE);
+	strncpy_s(nick, _newNick, User::NICK_SIZE);
 };
 void User::set_roomNumber(int _newRoomNumber)
 {

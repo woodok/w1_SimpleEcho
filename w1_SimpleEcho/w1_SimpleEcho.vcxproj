@@ -80,7 +80,9 @@
   <ItemGroup>
     <ClCompile Include="eClient.cpp" />
     <ClCompile Include="eServer.cpp" />
-    <ClCompile Include="test_arraysplit.cpp" />
+    <ClCompile Include="test_arraysplit.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="readme.txt" />

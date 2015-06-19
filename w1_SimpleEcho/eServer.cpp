@@ -1,5 +1,8 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include <iostream>
+//#include <stdio.h>
+#include <cstdio>
+//#include <stdlib.h>
+#include <cstdlib>
 #include <process.h>
 #include <WinSock2.h>
 #include <Windows.h>
@@ -19,7 +22,7 @@ typedef struct
 	OVERLAPPED overlapped;
 	WSABUF wsaBuf;
 	char buffer[BUF_SIZE];
-	int rwMode;
+	int rwMode;		// read mode / write mode distinguisher
 } PER_IO_DATA, *LPPER_IO_DATA;
 
 DWORD WINAPI EchoThreadMain(LPVOID CompletionPortIO);
@@ -36,13 +39,19 @@ int main(int argc, char * argv[])
 	SOCKET hServSock;
 	SOCKADDR_IN servAdr;
 	int recvBytes, i, flags = 0;
+
+	if (argc != 2) {
+		printf("Usage : %s <port>\n", argv[0]);
+		exit(1);
+	}
+
 	if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0)
 		ErrorHandling("WSAStartup() error");
 
 	hComPort = CreateIoCompletionPort(INVALID_HANDLE_VALUE, NULL, 0, 0);
 	GetSystemInfo(&sysInfo);
-	for (i = 0; i < sysInfo.dwNumberOfProcessors; i++)
-		_beginthreadex(NULL, 0, EchoThreadMain, (LPVOID)hComPort, 0, NULL);
+	for (i = 0; i < (int)(sysInfo.dwNumberOfProcessors); i++)
+		_beginthreadex(NULL, 0, (unsigned int (__stdcall *)(void *))EchoThreadMain, (LPVOID)hComPort, 0, NULL);
 
 	hServSock = WSASocket(AF_INET, SOCK_STREAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED);
 	memset(&servAdr, 0, sizeof(servAdr));
@@ -71,7 +80,7 @@ int main(int argc, char * argv[])
 		ioInfo->wsaBuf.len = BUF_SIZE;
 		ioInfo->wsaBuf.buf = ioInfo->buffer;
 		ioInfo->rwMode = READ;
-		WSARecv(handleInfo->hClntSock, &(ioInfo->wsaBuf), 1, &recvBytes, &flags, &(ioInfo->overlapped), NULL);
+		WSARecv(handleInfo->hClntSock, &(ioInfo->wsaBuf), 1, (LPDWORD)&recvBytes, (LPDWORD)&flags, &(ioInfo->overlapped), NULL);
 	}
 	return 0;
 }

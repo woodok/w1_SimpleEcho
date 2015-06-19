@@ -1,3 +1,5 @@
+#define _WINSOCK_DEPRECATED_NO_WARNINGS
+
 #include <cstdio>
 #include <cstdlib>
 #include <WinSock2.h>
@@ -31,6 +33,7 @@ int main(int argc, char * argv[])
 	memset(&servAdr, 0, sizeof(servAdr));
 	servAdr.sin_family = AF_INET;
 	servAdr.sin_addr.s_addr = inet_addr(argv[1]);
+	//servAdr.sin_addr.s_addr = inetPton(argv[1]);
 	servAdr.sin_port = htons(atoi(argv[2]));
 
 	if (connect(hSocket, (SOCKADDR *)&servAdr, sizeof(servAdr)) == SOCKET_ERROR)

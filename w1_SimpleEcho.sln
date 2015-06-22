@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "server", "server\server.vcx
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "client", "client\client.vcxproj", "{20E5EE6A-0B0C-4B96-9B51-021B4F7C8DB4}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test", "test\test.vcxproj", "{06E30934-9DAC-4028-8D96-66B299993ED9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -27,6 +29,10 @@ Global
 		{20E5EE6A-0B0C-4B96-9B51-021B4F7C8DB4}.Debug|Win32.Build.0 = Debug|Win32
 		{20E5EE6A-0B0C-4B96-9B51-021B4F7C8DB4}.Release|Win32.ActiveCfg = Release|Win32
 		{20E5EE6A-0B0C-4B96-9B51-021B4F7C8DB4}.Release|Win32.Build.0 = Release|Win32
+		{06E30934-9DAC-4028-8D96-66B299993ED9}.Debug|Win32.ActiveCfg = Debug|Win32
+		{06E30934-9DAC-4028-8D96-66B299993ED9}.Debug|Win32.Build.0 = Debug|Win32
+		{06E30934-9DAC-4028-8D96-66B299993ED9}.Release|Win32.ActiveCfg = Release|Win32
+		{06E30934-9DAC-4028-8D96-66B299993ED9}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

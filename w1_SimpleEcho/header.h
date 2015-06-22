@@ -1,76 +1,99 @@
 #include <iostream>
 #include <cstdlib>
 #include <cstring>
+#include <list>
 
-class User
+class UserInfo
 {
+private:
 	static int createdObjNum;
+public:
 	enum {
-		NAME_SIZE = 20,
-		NICK_SIZE = 20
+		ID_SIZE = 20
 	};
 private:
-	char name[NAME_SIZE];
-	char nick[NICK_SIZE];
-	int roomNumber;
-	int userKey;
+	int key;		// unique key for distinguishing user
+	char id[ID_SIZE];	// login id
+	HANDLE hSocket;
+	int roomNumber;		// the number of room which the user currently participate. (Not in the room = 0)
 public:
-	User(char * _name, char * _nick, int _roomNum) : roomNumber(_roomNum)
+	UserInfo(char * _id, HANDLE _hSocket, int _roomNum) : roomNumber(_roomNum)
 	{
-		strncpy_s(name, _name, NAME_SIZE);
-		strncpy_s(nick, _nick, NICK_SIZE);
-		userKey = createdObjNum++;
+		key = ++createdObjNum;
+		strncpy_s(id, _id, ID_SIZE);
+		hSocket = _hSocket;
 	}
-	User() : roomNumber(0)
+	UserInfo() : roomNumber(0)
 	{
-		strncpy_s(name, "Default", NAME_SIZE);
-		strncpy_s(nick, "Default", NICK_SIZE);
-		userKey = createdObjNum++;
+		key = ++createdObjNum;
+		strncpy_s(id, "Default", ID_SIZE);
+		hSocket = INVALID_HANDLE_VALUE;
 	}
 	
 	// Accessor
-	const char * get_name() const;		//? 이렇게 되는 경우 혹시 리턴값으로부터 멤버 수정할 수도..?
-	const char * get_nick() const;		//? 이렇게 되는 경우 혹시 리턴값으로부터 멤버 수정할 수도..?
+	const char * get_id() const;		//? 이렇게 되는 경우 혹시 리턴값으로부터 멤버 수정할 수도..?
 	int get_roomNumber() const;
-	int get_userKey() const;
+	int get_key() const;
+	HANDLE get_hSocket() const;
 
 	// Mutator
-	void set_name(char * _newName);
-	void set_nick(char * _newNick);
+	void set_id(char * _newid);
 	void set_roomNumber(int _newRoomNum);
-	void set_userKey(int _newUserKey);
-
+	void set_key(int _newkey);
+	void set_hSocket(HANDLE _newhSocket);
 };
 
-const char* User::get_name() const
+class RoomInfo
 {
-	return name;
+private:
+	static int createdObjNum;
+public:
+	enum {
+		TITLE_SIZE = 100,
+		MAX_USER = 4
+	};
+private:
+	int key;
+	char title[TITLE_SIZE];
+	std::list<HANDLE> users;
+public:
+	RoomInfo(char * _title)
+	{
+		strncpy_s(title, _title, TITLE_SIZE);
+		key = ++createdObjNum;
+	}
+	RoomInfo()
+	{
+		strncpy_s(title, "No title", TITLE_SIZE);
+		key = ++createdObjNum;
+	}
+	boolean joinUser(HANDLE _hSocket);
+	boolean quitUser(HANDLE _hSocket);
+
+	// Accessor
+	int get_key();
+	const char * get_title();
+	
+	// Mutator
+	void set_title(char * _newTitle);
 };
-const char * User::get_nick() const
+
+// UserInfo
+const char* UserInfo::get_id() const	{ return id; }
+int UserInfo::get_roomNumber() const	{ return roomNumber; }
+int UserInfo::get_key() const			{ return key; }
+HANDLE UserInfo::get_hSocket() const	{ return hSocket; }
+void UserInfo::set_id(char * _newid)	{ strncpy_s(id, _newid, UserInfo::ID_SIZE); }
+void UserInfo::set_roomNumber(int _newRoomNumber)	{ roomNumber = _newRoomNumber; }
+void UserInfo::set_key(int _newkey)		{ key = _newkey; }
+void UserInfo::set_hSocket(HANDLE _newhSocket)		 { 	hSocket = _newhSocket; }
+
+// RoomInfo
+boolean RoomInfo::joinUser(HANDLE _hSocket)
 {
-	return nick;
-};
-int User::get_roomNumber() const
-{
-	return roomNumber;
-};
-int User::get_userKey() const
-{
-	return userKey;
+	
 }
-void User::set_name(char * _newName)
+boolean RoomInfo::quitUser(HANDLE _hSocket)
 {
-	strncpy_s(name, _newName, User::NAME_SIZE);
-};
-void User::set_nick(char * _newNick)
-{
-	strncpy_s(nick, _newNick, User::NICK_SIZE);
-};
-void User::set_roomNumber(int _newRoomNumber)
-{
-	roomNumber = _newRoomNumber;
-};
-void User::set_userKey(int _newUserKey)
-{
-	userKey = _newUserKey;
-};
+
+}

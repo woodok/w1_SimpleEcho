@@ -15,3 +15,6 @@ There is OriginalClass deserialize(...) function. (Function's specs might be cha
 //? UDP는 datagram(packet)을 주고 받고 TCP는 stream이라던데.. serialization은 packet을 만드는거 아닌가..? 
 	그럼 TCP에서 serialization을 한다는 건 무슨 뜻인지..?
 
+version history
+0.1.0		basic IOCP server & client
+0.2.0		class implementation

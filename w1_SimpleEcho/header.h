@@ -2,6 +2,8 @@
 #include <cstdlib>
 #include <cstring>
 #include <list>
+#include <WinSock2.h>
+#include <algorithm>
 
 class UserInfo
 {
@@ -91,9 +93,27 @@ void UserInfo::set_hSocket(HANDLE _newhSocket)		 { 	hSocket = _newhSocket; }
 // RoomInfo
 boolean RoomInfo::joinUser(HANDLE _hSocket)
 {
-	
+	if (users.size < MAX_USER) {
+		users.push_back(_hSocket);
+		return true;
+	}
+	else {
+		std::cout << "The room is full." << std::endl;
+		return false;
+	}
 }
 boolean RoomInfo::quitUser(HANDLE _hSocket)
 {
-
+	std::list<HANDLE>::iterator iter;
+	if ((iter = std::find(users.begin(), users.end(), _hSocket)) != users.end()) {
+		users.erase(iter);
+		return true;
+	}
+	else {
+		std::cout << "There is no such value in the list 'users'" << std::endl;
+		return false;
+	}
 }
+int RoomInfo::get_key()		{ return key; }
+const char * RoomInfo::get_title()	{ return title; }
+void RoomInfo::set_title(char * _newTitle)	{ strncpy_s(title, _newTitle, TITLE_SIZE); }

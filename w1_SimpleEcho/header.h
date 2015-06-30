@@ -19,8 +19,6 @@ class UserInfo
 {
 private:
 	static int createdObjNum;
-//public:
-//	const static int ID_SIZE = 20;
 private:
 	int key;		// unique key for distinguishing user
 	char id[USER_INFO::ID_SIZE];	// login id
@@ -69,9 +67,6 @@ class RoomInfo
 {
 private:
 	static int createdObjNum;
-//public:
-//	const static int TITLE_SIZE = 100;
-//	const static int MAX_USER = 4;
 public:
 	int key;
 	char title[ROOM_INFO::TITLE_SIZE];

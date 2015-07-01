@@ -43,13 +43,16 @@ int main(int argc, char * argv[])
 
 	while (1)
 	{
-		fputs("Input message(Q to quit): ", stdout);
-		fgets(message, BUF_SIZE, stdin);
-		if (!strcmp(message, "q\n") || !strcmp(message, "Q\n"))
+		//fputs("Input message(Q to quit): ", stdout);
+		//fgets(message, BUF_SIZE, stdin);
+		//if (!strcmp(message, "q\n") || !strcmp(message, "Q\n"))
+		//	break;
+		std::string strbuf("Hello, world!!");
+		if (strbuf == "q\n" || strbuf == "Q\n")
 			break;
 
-		strLen = strlen(message);
-		send(hSocket, message, strLen, 0);
+		strLen = strbuf.size();
+		send(hSocket, strbuf.c_str(), strLen, 0);
 		readLen = 0;
 		while (1)
 		{
@@ -58,8 +61,20 @@ int main(int argc, char * argv[])
 				break;
 		}
 		message[strLen] = 0;
-		printf("Message from Server: %s", message);
+		std::cout << "Message from server: " << message << std::endl;
 	}
+	//	strLen = strlen(message);
+	//	send(hSocket, message, strLen, 0);
+	//	readLen = 0;
+	//	while (1)
+	//	{
+	//		readLen += recv(hSocket, &message[readLen], BUF_SIZE - 1, 0);
+	//		if (readLen >= strLen)
+	//			break;
+	//	}
+	//	message[strLen] = 0;
+	//	printf("Message from Server: %s", message);
+	//}
 
 	closesocket(hSocket);
 	WSACleanup();

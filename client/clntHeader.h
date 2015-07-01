@@ -10,7 +10,7 @@ void login()
 {
 	std::cout << "--------------------------------------" << std::endl;
 	std::cout << "Please put your nickname: " << std::endl;
-	std::cin >> nickbuf;
+	//std::cin >> nickbuf;
 }
 
 void roomSelection()

@@ -1,0 +1,4 @@
+To do list
+
+1. Proj test :: string.cpp
+	examining cutting string with '|' into substring using std::string.find()

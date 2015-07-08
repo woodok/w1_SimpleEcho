@@ -101,6 +101,19 @@ public:
 };
 int RoomInfo::createdObjNum = 0;
 
+// UserInfoList
+class UserInfoList
+{
+public:
+	std::list<UserInfo *> head;
+private:
+	int keyCount;
+public:
+	void add(UserInfo *);
+	void remove(int _key);
+	UserInfo& find(int _key);
+};
+
 // UserInfo
 const char* UserInfo::get_id() const	{ return id; }
 int UserInfo::get_roomNumber() const	{ return roomNumber; }

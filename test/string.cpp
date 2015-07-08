@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <sstream>
 
 using std::cin;
 using std::cout;
@@ -7,11 +8,12 @@ using std::endl;
 
 class Test
 {
-public:
+private:
 	int iData;
 	char cData;
 public:
 	Test(int _newInt = 0, char _newChar = '/0') : iData(_newInt), cData(_newChar) {}
+	friend void operator<<(std::string&, const Test&);
 };
 
 void operator<<(std::string& _originStr, const Test& _test)
@@ -51,6 +53,20 @@ int main(void)
 	str2 << tst;
 
 	cout << "str2 << operation: " << str2 << endl;
+
+	//int i0 = str2.find('|');
+	//cout << "i0: " << i0 << endl;
+	//i0 = str2.find('|', i0 + 1);
+	//cout << "i0: " << i0 << endl;
+	//i0 = str2.find('|', i0 + 1);
+	//cout << "i0: " << i0 << endl;
+
+	std::string temp;
+	std::stringstream ss;
+	ss.str(str2);
+
+	while (getline(ss, temp, '|'))
+		cout << temp << endl;
 
 	return 0;	
 }

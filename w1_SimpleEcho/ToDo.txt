@@ -1,4 +1,8 @@
 To do list
 
 1. Proj test :: string.cpp
-	examining cutting string with '|' into substring using std::string.find()
+	split string with certain delimiter using stringstream and getline(..)
+	>> done
+2. build UserInfo class & UserInfoList class
+3. build RoomInfo class & RoomInfoList class
+ 

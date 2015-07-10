@@ -136,7 +136,7 @@ void UserInfoList::add(std::string _newid, HANDLE _hSocket, int _newRoomNum)
 {
 	head.push_back(new UserInfo(_newid, _hSocket, _newRoomNum));
 }
-void UserInfoList::remove(int _key)
+void UserInfoList::remove(int _key)				//rev
 {
 	RoomInfo& target = head.erase()
 

@@ -52,6 +52,10 @@ public:
 	void set_roomNumber(int _newRoomNum);
 	void set_key(int _newkey);
 	void set_hSocket(HANDLE _newhSocket);
+
+	bool operator== (int _key) const;
+	bool operator== (const UserInfo& _uInfo) const;
+
 };
 
 // UserInfoList
@@ -131,6 +135,15 @@ void UserInfo::set_roomNumber(int _newRoomNumber)	{ roomNumber = _newRoomNumber;
 void UserInfo::set_key(int _newkey)		{ key = _newkey; }
 void UserInfo::set_hSocket(HANDLE _newhSocket)		 { 	hSocket = _newhSocket; }
 
+bool UserInfo::operator== (int _key) const
+{
+	return key == _key;
+}
+bool UserInfo::operator== (const UserInfo& _uInfo) const
+{
+	return key == _uInfo.key;
+}
+
 // UserInfoList
 void UserInfoList::add(std::string _newid, HANDLE _hSocket, int _newRoomNum) 
 {
@@ -142,7 +155,7 @@ void UserInfoList::remove(int _key)				//rev
 
 
 }
-UserInfo& UserInfoList::find(int _key)
+UserInfo& UserInfoList::find(int _key)		//? 이게 필요한가..? find() 알고리즘이 있는데...
 {
 
 }

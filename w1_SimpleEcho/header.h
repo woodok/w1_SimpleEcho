@@ -11,6 +11,9 @@
 #include <algorithm>
 #include <string>
 
+typedef int UserKey;
+typedef int RoomKey;
+
 namespace USER_INFO
 {
 	enum { ID_SIZE = 20 };

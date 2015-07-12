@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="string.cpp">
+    <ClCompile Include="list_remove_delete.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

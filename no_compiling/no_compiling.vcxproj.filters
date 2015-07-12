@@ -24,5 +24,11 @@
     <ClCompile Include="..\w1_SimpleEcho\test_arraysplit.cpp">
       <Filter>소스 파일\test</Filter>
     </ClCompile>
+    <ClCompile Include="..\test\string.cpp">
+      <Filter>소스 파일\test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test\ref_arr.cpp">
+      <Filter>소스 파일\test</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

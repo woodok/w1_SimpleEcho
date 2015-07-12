@@ -78,6 +78,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\test\ref_arr.cpp" />
+    <ClCompile Include="..\test\string.cpp" />
     <ClCompile Include="..\test\test.cpp" />
     <ClCompile Include="..\w1_SimpleEcho\test_arraysplit.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>

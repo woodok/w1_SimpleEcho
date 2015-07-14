@@ -66,22 +66,15 @@ public:
 class UserInfoList
 {
 public:
-	std::list<UserInfo *> head;
+	std::vector<UserInfo *> head;
 private:
-	int keyCount;
+	int objCreated;
 public:
-	UserInfoList() : keyCount(0)
-	{}
-	~UserInfoList()
-	{
-		std::list<UserInfo*>::iterator it;
-		for (it = head.begin(); it != head.end(); ++it)
-			delete(*it);
-		std::cout << "UserInfoList object deleted" << std::endl;
-	}
+	UserInfoList() : objCreated(0) {}
+	~UserInfoList();
 	void add(std::string _newid, HANDLE _hSocket, int _newRoomNum = 0);
-	void remove(int _key);
-	UserInfo& find(int _key);	
+	void del(int _key);
+//	UserInfo& find(int _key);	
 };
 
 class ROOM_INFO

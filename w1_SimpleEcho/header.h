@@ -7,6 +7,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <list>
+#include <vector>
 #include <WinSock2.h>
 #include <algorithm>
 #include <string>
@@ -61,7 +62,7 @@ public:
 
 };
 
-// UserInfoList
+// UserInfoList stored in Vector
 class UserInfoList
 {
 public:
@@ -122,6 +123,7 @@ public:
 	void set_title(std::string _newTitle);
 };
 
+// RoomInfoList stored in Vector
 class RoomInfoList
 {
 	std::list<RoomInfo *> head;

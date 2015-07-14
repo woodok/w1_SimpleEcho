@@ -30,5 +30,8 @@
     <ClCompile Include="..\test\ref_arr.cpp">
       <Filter>소스 파일\test</Filter>
     </ClCompile>
+    <ClCompile Include="..\test\typedef.cpp">
+      <Filter>소스 파일\test</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

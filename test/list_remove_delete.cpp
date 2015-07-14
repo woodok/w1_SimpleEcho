@@ -39,7 +39,8 @@ public:
 	}
 	void add(int _key);
 	void del(int _key);
-	//~TestVec();			//rev
+	void del2(int _key);
+	~TestVec();			//rev
 };
 class TestList
 {
@@ -63,7 +64,7 @@ int main(void)
 	tlist.push_back(new Test);
 	tlist.remove(0);
 	*/
-	// TestVec test using vector - functor
+	// TestVec test using vector - remove-erase & functor
 	/*TestVec tvec;
 	tvec.add(1);
 	tvec.add(10);
@@ -71,11 +72,17 @@ int main(void)
 
 	tvec.del(1);
 	tvec.del(10);
-	tvec.del(100);
-*/
+	tvec.del(100);*/
 
-	// TestList test
+	// TestVec test using vector - find_if & lambda
+	TestVec tvec;
+	tvec.add(1);
+	tvec.add(10);
+	tvec.add(100);
+	cout << "tvec.head.size(): " << tvec.head.size() << endl;
 
+	//cout << "tvec.head[2]->key: " << tvec.head[2]->key << endl;
+	tvec.del2(10);	
 
 	cout << "main() end" << endl;
 	return 0;
@@ -96,21 +103,49 @@ void TestVec::del(int _key)
 				e = NULL;
 			}
 		}
-		TestVec_deletor(int _targetKey) :targetKey(_targetKey) { }
+		TestVec_deletor(int _targetKey) :targetKey(_targetKey) { cout << "TestVec_deletor created" << endl; }
 	};
 	for_each(head.begin(), head.end(), TestVec_deletor(_key));
 	std::vector<Test *>::iterator newEnd = remove(head.begin(), head.end(), static_cast<Test*>(NULL));
 	head.erase(newEnd, head.end());
 }
-
-void TestList::add(int _key)
+void TestVec::del2(int _key)
 {
-	++objCreated;
-	head.push_back(new Test(_key));
+	std::vector<Test*>::iterator it = std::find_if(
+													head.begin(), 
+													head.end(), 
+													[&_key](Test *& tPtr) {
+													if (tPtr->key == _key)
+														return true;
+													return false;
+	});
+	delete(*it);
+	*it = NULL;
+	head.erase(it);
+	cout << "head.erase() succeed. head.size(): " << head.size() << endl;
+	//cout << "head[2]->key: " << head[2]->key << endl;
 }
-void TestList::del(int _key)
+TestVec::~TestVec()
 {
-	//rev
-	head.remove(head.begin(), head.end(), find(head.begin(), head.end(), _key));
-
+	struct delete_all {
+		void operator() (Test *& e)
+		{
+			delete(e);
+			e = NULL;
+		}
+	};
+	for_each(head.begin(), head.end(), delete_all());
 }
+
+// TestList
+//void TestList::add(int _key)
+//{
+//	++objCreated;
+//	head.push_back(new Test(_key));
+//}
+//void TestList::del(int _key)
+//{
+//	//rev
+//	head.remove(head.begin(), head.end(), find(head.begin(), head.end(), _key));
+//
+//}

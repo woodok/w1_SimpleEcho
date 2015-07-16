@@ -74,7 +74,9 @@ public:
 	~UserInfoList();
 	void add(std::string _newid, HANDLE _hSocket, int _newRoomNum = 0);
 	void del(int _key);
-//	UserInfo& find(int _key);	
+	//UserInfo& find(int _key);
+	//UserInfo* find(int _key);
+	std::vector<UserInfo *>::iterator& find(int _key);
 };
 
 class ROOM_INFO
@@ -113,6 +115,7 @@ public:
 	const std::string& get_title() const;
 	
 	// Mutator
+	void set_key(int _key);
 	void set_title(std::string _newTitle);
 };
 
@@ -121,6 +124,7 @@ class RoomInfoList
 {
 	std::list<RoomInfo *> head;
 	//rev
+private:
 };
 
 // UserInfo
@@ -132,7 +136,6 @@ void UserInfo::set_id(std::string _newid)	{ id = _newid; }
 void UserInfo::set_roomNumber(int _newRoomNumber)	{ roomNumber = _newRoomNumber; }
 void UserInfo::set_key(int _newkey)		{ key = _newkey; }
 void UserInfo::set_hSocket(HANDLE _newhSocket)		 { 	hSocket = _newhSocket; }
-
 bool UserInfo::operator== (int _key) const
 {
 	return key == _key;
@@ -147,15 +150,35 @@ void UserInfoList::add(std::string _newid, HANDLE _hSocket, int _newRoomNum)
 {
 	head.push_back(new UserInfo(_newid, _hSocket, _newRoomNum));
 }
-void UserInfoList::remove(int _key)				//rev
+void UserInfoList::del(int _key)				//rev
 {
-	RoomInfo& target = head.erase()
+	// del operation modularization 이전
+	/*std::vector<UserInfo *>::iterator it = std::find_if(head.begin(), head.end(), [&_key](UserInfo *& e) {
+		if ((*e).get_key() == _key)
+			return true;
+		else
+			return false;
+	});
+	delete(*it);
+	*it = nullptr;
+	head.erase(it);
+*/
 
-
+	std::vector<UserInfo *>::iterator & temp = find(_key);
+	delete(*temp);
+	*temp = nullptr;
+	head.erase(temp);
 }
-UserInfo& UserInfoList::find(int _key)		//? 이게 필요한가..? find() 알고리즘이 있는데...
+std::vector<UserInfo *>::iterator&  UserInfoList::find(int _key)
 {
-
+	std::vector<UserInfo *>::iterator it = std::find_if(head.begin(), head.end(), [&_key](UserInfo *& e) {
+		if (e->get_key() == _key)
+			return true;
+		else
+			return false;
+	});
+	
+	return it;
 }
 
 // RoomInfo
@@ -191,4 +214,5 @@ bool RoomInfo::operator==(RoomInfo& _comparedRoom)
 }
 int RoomInfo::get_key()		{ return key; }
 const std::string& RoomInfo::get_title() const	{ return title; }
+void RoomInfo::set_key(int _key) { key = _key; }
 void RoomInfo::set_title(std::string _newTitle)	{ title = _newTitle; }

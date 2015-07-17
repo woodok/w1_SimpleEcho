@@ -3,8 +3,15 @@ To do list
 1. Proj test :: string.cpp
 	split string with certain delimiter using stringstream and getline(..)
 	>> done
+
 2. build UserInfo class 
+	>> done
 3. build UserInfoList class
+	>> done
 4. build RoomInfo class
 	? do I have to store both of user key & user socket handle in RoomInfo class??
+
 5. build RoomInfoList class
+
+6. build serialization class (or packet class??)
+

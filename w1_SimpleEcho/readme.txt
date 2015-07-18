@@ -19,6 +19,16 @@ There is OriginalClass deserialize(...) function. (Function's specs might be cha
 
 //? functor를 쓰는 이유?
 
+//? find(..) 함수의 작동원리? obj의 ==operator를 이용하나?
+	>>done
+
+//? enum Vs const int 사용법 확인 
+	>>done
+
+//? enum을 class로 넣어야하는지, namespace로 넣어야하는지..
+
+//? string에서 copiedStr = origStr 과 같이 =operation은 shallow copy? deep copy?
+
 version history
 0.1.0		basic IOCP server & client
 0.2.0		class implementation

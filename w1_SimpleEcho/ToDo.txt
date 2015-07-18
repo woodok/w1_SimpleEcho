@@ -1,17 +1,21 @@
 To do list
 
-1. Proj test :: string.cpp
+け Proj test :: string.cpp
 	split string with certain delimiter using stringstream and getline(..)
 	>> done
 
-2. build UserInfo class 
+け build UserInfo class 
 	>> done
-3. build UserInfoList class
+け build UserInfoList class
 	>> done
-4. build RoomInfo class
+け build RoomInfo class
 	? do I have to store both of user key & user socket handle in RoomInfo class??
 
-5. build RoomInfoList class
+け class declarations & definitions devide(歳軒)
 
-6. build serialization class (or packet class??)
+け revise documentation
+
+け build RoomInfoList class
+
+け build serialization class (or packet class??)
 

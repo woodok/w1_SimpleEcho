@@ -1,7 +1,6 @@
-// find(..) 함수의 작동원리? obj의 ==operator를 이용하나?
-// enum Vs const int 사용법 확인
-// enum을 class로 넣어야하는지, namespace로 넣어야하는지..
-// 각 클래스 상세 기술 문서 만들기
+
+#ifndef __HEADER_H_
+#define __HEADER_H_
 
 #include <iostream>
 #include <cstdlib>
@@ -18,7 +17,19 @@ typedef int RoomKey;
 
 namespace USER_INFO
 {
-	enum { ID_SIZE = 20 };
+	enum {
+		DEFAULT_USER_KEY = -1,
+		ID_SIZE = 20			// max length of id number (, which has no meaning now cause id type changed to std::string)
+	};
+};
+class ROOM_INFO
+{
+public:
+	enum { 
+		TITLE_SIZE = 100,		// max length of title number (, which has no meaning now cause title type changed to std::string)
+		MAX_USER = 4,			// max participants number per room
+		DEFAULT_ROOM_KEY = -1			// has no room key
+	};
 };
 
 class UserInfo
@@ -29,13 +40,15 @@ private:
 	HANDLE hSocket;
 	RoomKey roomNumber;		// the number of room which the user currently participate. (Not in the room = 0)
 public:
-	UserInfo(std::string _id, HANDLE _hSocket, RoomKey _roomNum = 0) : roomNumber(_roomNum)
+	UserInfo(UserKey _key, std::string _id, HANDLE _hSocket, RoomKey _roomNum = ROOM_INFO::DEFAULT_ROOM_KEY)
+		: key(_key), roomNumber(_roomNum)
 	{
 		id = _id;				//? move semantic 사용해야하나..?
 		hSocket = _hSocket;
+		spellingCheck();
 		std::cout << "UserInfo(..) called" << std::endl;
 	}
-	UserInfo() : roomNumber(0)
+	UserInfo() : key(USER_INFO::DEFAULT_USER_KEY), roomNumber(ROOM_INFO::DEFAULT_ROOM_KEY)
 	{
 		id = "Default";
 		hSocket = INVALID_HANDLE_VALUE;
@@ -46,6 +59,9 @@ public:
 		std::cout << "~UserInfo() called" << std::endl;
 	}
 	
+	// member functions
+	void spellingCheck();			// replace protocol reserved delimiter
+
 	// Accessor
 	const std::string& get_id() const;
 	RoomKey get_roomNumber() const;
@@ -60,7 +76,6 @@ public:
 
 	bool operator== (UserKey _key) const;
 	bool operator== (const UserInfo& _uInfo) const;
-
 };
 
 // UserInfoList stored in Vector
@@ -69,7 +84,7 @@ class UserInfoList
 public:
 	std::vector<UserInfo *> head;
 private:
-	int objCreated;
+	int objCreated;		// the number of UserInfo object created
 public:
 	UserInfoList() : objCreated(0) {}
 	~UserInfoList()
@@ -79,15 +94,9 @@ public:
 			e = nullptr;
 		});
 	}
-	void add(std::string _newid, HANDLE _hSocket, RoomKey _newRoomNum = 0);
+	void add(std::string _newid, HANDLE _hSocket, RoomKey _newRoomNum = ROOM_INFO::DEFAULT_ROOM_KEY);
 	void del(UserKey _key);
 	std::vector<UserInfo *>::iterator& find(UserKey _key);
-};
-
-class ROOM_INFO
-{
-public:
-	enum { TITLE_SIZE = 100, MAX_USER = 4 };
 };
 
 class RoomInfo
@@ -97,14 +106,16 @@ private:
 	std::string title;
 	std::vector<std::pair<UserKey, HANDLE>> users;
 public:
-	RoomInfo(std::string _title)
+	RoomInfo(RoomKey _key, std::string _title) : key(_key)
 	{
 		title = _title;
 		users.reserve(ROOM_INFO::MAX_USER);
+		spellingCheck();
 		std::cout << "RoomInfo(..) called" << std::endl;
 	}
 	RoomInfo()
 	{
+		key = ROOM_INFO::DEFAULT_ROOM_KEY;
 		title = "No title";
 		users.reserve(ROOM_INFO::MAX_USER);
 		std::cout << "RoomInfo() called" << std::endl;
@@ -113,10 +124,11 @@ public:
 	{
 		std::cout << "~RoomInfo() called" << std::endl;
 	}
+
+	// member functions
+	void spellingCheck();
 	bool joinUser(UserKey _uKey, HANDLE _hSocket);
 	bool quitUser(UserKey _uKey, HANDLE _hSocket);
-	bool operator==(RoomInfo& _comparedRoom);
-	bool operator==(RoomKey _roomKey);
 
 	// Accessor
 	RoomKey get_key() const;
@@ -125,120 +137,30 @@ public:
 	// Mutator
 	void set_key(RoomKey _key);
 	void set_title(std::string _newTitle);
+
+	bool operator==(RoomInfo& _comparedRoom);
+	bool operator==(RoomKey _roomKey);
 };
 
 // RoomInfoList stored in Vector
 class RoomInfoList
 {
 public:
-	std::list<RoomInfo *> head;
-	//rev
+	std::vector<RoomInfo *> head;
 private:
+	int objCreated;			// the number of RoomInfo object created
+public:
+	RoomInfoList() : objCreated(0) {}
+	~RoomInfoList()
+	{
+		for_each(head.begin(), head.end(), [](RoomInfo *& e) {
+			delete(e);
+			e = nullptr;
+		});
+	}
+	void add(std::string _title, );		//rev
+	void del();		//rev
+	std::vector<RoomInfo *>::iterator& find(RoomKey _key);
 };
 
-// UserInfo
-const std::string& UserInfo::get_id() const	{ return id; }
-RoomKey UserInfo::get_roomNumber() const	{ return roomNumber; }
-UserKey UserInfo::get_key() const			{ return key; }
-HANDLE UserInfo::get_hSocket() const	{ return hSocket; }
-void UserInfo::set_id(std::string _newid)	{ id = _newid; }
-void UserInfo::set_roomNumber(RoomKey _newRoomNumber)	{ roomNumber = _newRoomNumber; }
-void UserInfo::set_key(UserKey _newkey)		{ key = _newkey; }
-void UserInfo::set_hSocket(HANDLE _newhSocket)		 { 	hSocket = _newhSocket; }
-bool UserInfo::operator== (UserKey _key) const
-{
-	return key == _key;
-}
-bool UserInfo::operator== (const UserInfo& _uInfo) const
-{
-	return key == _uInfo.key;
-}
-
-// UserInfoList
-void UserInfoList::add(std::string _newid, HANDLE _hSocket, RoomKey _newRoomNum) 
-{
-	head.push_back(new UserInfo(_newid, _hSocket, _newRoomNum));
-}
-void UserInfoList::del(UserKey _key)
-{
-	// del operation modularization 이전
-	/*std::vector<UserInfo *>::iterator it = std::find_if(head.begin(), head.end(), [&_key](UserInfo *& e) {
-		if ((*e).get_key() == _key)
-			return true;
-		else
-			return false;
-	});
-	delete(*it);
-	*it = nullptr;
-	head.erase(it);
-*/
-
-	std::vector<UserInfo *>::iterator & temp = find(_key);
-	delete(*temp);
-	*temp = nullptr;
-	head.erase(temp);
-}
-std::vector<UserInfo *>::iterator&  UserInfoList::find(UserKey _key)
-{
-	std::vector<UserInfo *>::iterator it = std::find_if(head.begin(), head.end(), [&_key](UserInfo *& e) {
-		if (e->get_key() == _key)
-			return true;
-		else
-			return false;
-	});
-	
-	return it;
-}
-
-// RoomInfo
-bool RoomInfo::joinUser(UserKey _uKey, HANDLE _hSocket)
-{
-	if (users.size() < ROOM_INFO::MAX_USER) {
-		users.push_back(std::make_pair(_uKey, _hSocket));			//? move semantic 써야하지 않나..? 
-		return true;
-	}
-	else {
-		std::cout << "The room is already full." << std::endl;
-		return false;
-	}
-}
-bool RoomInfo::quitUser(UserKey _uKey, HANDLE _hSocket)
-{
-	std::vector<std::pair<UserKey, HANDLE>>::iterator it;
-	it = find_if(users.begin(), users.end(), [=](std::pair<UserKey, HANDLE>& e) {
-		if (e.first == _uKey)
-			return true;
-		else
-			return false;
-	});
-
-	if (it != users.end() )
-	{
-		users.erase(it);
-	}
-	else {
-		std::cout << "There is no such user(UserKey: " 
-			<< _uKey << ") in this room(RoomKey: " << key << ")." << std::endl;
-		return false;
-	}
-}
-bool RoomInfo::operator==(RoomInfo& _comparedRoom)
-{
-	if (key == _comparedRoom.key)
-		return true;
-	else
-		return false;
-}
-bool RoomInfo::operator==(RoomKey _roomKey)
-{
-	if (key == _roomKey)
-		return true;
-	else
-		return false;
-}
-RoomKey RoomInfo::get_key()	const	{ return key; }
-const std::string& RoomInfo::get_title() const	{ return title; }
-void RoomInfo::set_key(RoomKey _key) { key = _key; }
-void RoomInfo::set_title(std::string _newTitle)	{ title = _newTitle; }
-
-// RoomInfoList class
+#endif // !__HEADER_H_

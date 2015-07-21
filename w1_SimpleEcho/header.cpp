@@ -68,7 +68,7 @@ std::vector<UserInfo *>::iterator&  UserInfoList::find(UserKey _key)
 bool RoomInfo::joinUser(UserKey _uKey, HANDLE _hSocket)
 {
 	if (users.size() < ROOM_INFO::MAX_USER) {
-		users.push_back(std::make_pair(_uKey, _hSocket));			//? move semantic 써야하지 않나..? 
+		users.push_back(std::make_pair(_uKey, _hSocket));	//? move semantic 써야하지 않나..? 
 		return true;
 	}
 	else {
@@ -76,7 +76,7 @@ bool RoomInfo::joinUser(UserKey _uKey, HANDLE _hSocket)
 		return false;
 	}
 }
-bool RoomInfo::quitUser(UserKey _uKey, HANDLE _hSocket)
+bool RoomInfo::quitUser(UserKey _uKey)
 {
 	std::vector<std::pair<UserKey, HANDLE>>::iterator it;
 	it = find_if(users.begin(), users.end(), [=](std::pair<UserKey, HANDLE>& e) {
@@ -89,6 +89,7 @@ bool RoomInfo::quitUser(UserKey _uKey, HANDLE _hSocket)
 	if (it != users.end())
 	{
 		users.erase(it);
+		return true;
 	}
 	else {
 		std::cout << "There is no such user(UserKey: "
@@ -107,14 +108,14 @@ void RoomInfo::set_title(std::string _newTitle)	{
 	title = _newTitle;
 	spellingCheck();
 }
-bool RoomInfo::operator==(RoomInfo& _comparedRoom)
+bool RoomInfo::operator==(const RoomInfo& _comparedRoom) const
 {
 	if (key == _comparedRoom.key)
 		return true;
 	else
 		return false;
 }
-bool RoomInfo::operator==(RoomKey _roomKey)
+bool RoomInfo::operator==(RoomKey _roomKey) const 
 {
 	if (key == _roomKey)
 		return true;
@@ -123,4 +124,3 @@ bool RoomInfo::operator==(RoomKey _roomKey)
 }
 
 // RoomInfoList class
-

@@ -128,7 +128,7 @@ public:
 	// member functions
 	void spellingCheck();
 	bool joinUser(UserKey _uKey, HANDLE _hSocket);
-	bool quitUser(UserKey _uKey, HANDLE _hSocket);
+	bool quitUser(UserKey _uKey);
 
 	// Accessor
 	RoomKey get_key() const;
@@ -138,8 +138,8 @@ public:
 	void set_key(RoomKey _key);
 	void set_title(std::string _newTitle);
 
-	bool operator==(RoomInfo& _comparedRoom);
-	bool operator==(RoomKey _roomKey);
+	bool operator==(const RoomInfo& _comparedRoom) const;
+	bool operator==(RoomKey _roomKey) const;
 };
 
 // RoomInfoList stored in Vector

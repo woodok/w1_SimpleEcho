@@ -10,9 +10,9 @@ To do list
 	>> done
 ¤± build RoomInfo class
 	? do I have to store both of user key & user socket handle in RoomInfo class??
-
+	>> done
 ¤± class declarations & definitions devide(ºÐ¸®)
-
+	>> done
 ¤± revise documentation
 
 ¤± build RoomInfoList class

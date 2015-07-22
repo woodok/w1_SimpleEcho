@@ -124,3 +124,25 @@ bool RoomInfo::operator==(RoomKey _roomKey) const
 }
 
 // RoomInfoList class
+void RoomInfoList::add(std::string _title)
+{
+	objCreated++;
+	head.push_back(new RoomInfo(objCreated, _title));
+}
+void RoomInfoList::del(RoomKey _key)
+{
+	std::vector<RoomInfo *>::iterator it;
+	it = find_if(head.begin(), head.end(), [_key](RoomInfo *& e) -> bool {
+		if (_key == e->get_key())
+			return true;
+		else
+			return false;
+	});
+	delete(*it);
+	*it = nullptr;
+	head.erase(it);
+}
+std::vector<RoomInfo *>::iterator& find(RoomKey _key)
+{
+	
+}

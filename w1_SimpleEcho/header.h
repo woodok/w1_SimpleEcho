@@ -158,8 +158,8 @@ public:
 			e = nullptr;
 		});
 	}
-	void add(std::string _title, );		//rev
-	void del();		//rev
+	void add(std::string _title);
+	void del(RoomKey _key);
 	std::vector<RoomInfo *>::iterator& find(RoomKey _key);
 };
 

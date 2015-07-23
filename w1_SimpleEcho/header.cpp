@@ -26,6 +26,12 @@ bool UserInfo::operator== (const UserInfo& _uInfo) const
 {
 	return key == _uInfo.key;
 }
+std::ostream& operator<<(std::ostream& os, const UserInfo& ui)
+{
+	std::cout << "key:" << ui.key << " |id:" << ui.id << " |socket:" << ui.hSocket 
+		<< " |room number:" << ui.roomNumber;
+	return os;
+}
 
 // UserInfoList
 void UserInfoList::add(std::string _newid, HANDLE _hSocket, RoomKey _newRoomNum)
@@ -52,9 +58,10 @@ void UserInfoList::del(UserKey _key)
 	*temp = nullptr;
 	head.erase(temp);
 }
-std::vector<UserInfo *>::iterator&  UserInfoList::find(UserKey _key)
+std::vector<UserInfo *>::iterator  UserInfoList::find(UserKey _key)
 {
-	std::vector<UserInfo *>::iterator it = std::find_if(head.begin(), head.end(), [&_key](UserInfo *& e) {
+	std::vector<UserInfo *>::iterator it = head.end();
+	it = std::find_if(head.begin(), head.end(), [_key](UserInfo *& e) {
 		if (e->get_key() == _key)
 			return true;
 		else
@@ -63,6 +70,35 @@ std::vector<UserInfo *>::iterator&  UserInfoList::find(UserKey _key)
 
 	return it;
 }
+std::vector<UserInfo *>::const_iterator  UserInfoList::find(UserKey _key) const
+{
+	std::vector<UserInfo *>::const_iterator it = head.cend();		//rev UserInfo *const 냐.. const UserInfo * 냐.. 아무래도 내가 const_iterator 쓰임을 잘못 알고 있는 모양.. 찾아보기: const_iterator, cbegin(), cend() 등등...
+	it = std::find_if(head.cbegin(), head.cend(), [_key](UserInfo * const& e) {
+		if (e->get_key() == _key)
+			return true;
+		else
+			return false;
+	});
+
+	return it;
+}
+void UserInfoList::print(std::vector<UserInfo *>::const_iterator& it) const
+{
+	std::cout << **it;
+}
+void UserInfoList::print(UserKey _key) const
+{
+	print(find(_key));
+	std::cout << std::endl;
+	//std::vector<UserInfo *>::const_iterator it = find(_key);
+	//std::cout << **it << std::endl;
+}
+void UserInfoList::printAll() const
+{
+	//for_each(head.cbegin(), head.cend(), 
+
+}
+
 
 // RoomInfo
 bool RoomInfo::joinUser(UserKey _uKey, HANDLE _hSocket)
@@ -131,18 +167,20 @@ void RoomInfoList::add(std::string _title)
 }
 void RoomInfoList::del(RoomKey _key)
 {
-	std::vector<RoomInfo *>::iterator it;
-	it = find_if(head.begin(), head.end(), [_key](RoomInfo *& e) -> bool {
-		if (_key == e->get_key())
-			return true;
-		else
-			return false;
-	});
+	std::vector<RoomInfo *>::iterator& it = find(_key);
+
 	delete(*it);
 	*it = nullptr;
 	head.erase(it);
 }
-std::vector<RoomInfo *>::iterator& find(RoomKey _key)
+std::vector<RoomInfo *>::iterator& RoomInfoList::find(RoomKey _key)
 {
-	
+	std::vector<RoomInfo *>::iterator& it = head.end();
+	it = find_if(head.begin(), head.end(), [_key](RoomInfo *& e) {
+		if (e->get_key() == _key)
+			return true;
+		else
+			return false;
+	});
+	return it;
 }

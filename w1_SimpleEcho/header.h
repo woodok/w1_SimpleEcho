@@ -76,6 +76,8 @@ public:
 
 	bool operator== (UserKey _key) const;
 	bool operator== (const UserInfo& _uInfo) const;
+
+	friend std::ostream& operator<<(std::ostream& os, const UserInfo& ui);
 };
 
 // UserInfoList stored in Vector
@@ -96,7 +98,11 @@ public:
 	}
 	void add(std::string _newid, HANDLE _hSocket, RoomKey _newRoomNum = ROOM_INFO::DEFAULT_ROOM_KEY);
 	void del(UserKey _key);
-	std::vector<UserInfo *>::iterator& find(UserKey _key);
+	std::vector<UserInfo *>::iterator find(UserKey _key);
+	std::vector<UserInfo *>::const_iterator find(UserKey _key) const;
+	void print(std::vector<UserInfo *>::const_iterator& it) const;
+	void print(UserKey _key) const;
+	void printAll() const;
 };
 
 class RoomInfo

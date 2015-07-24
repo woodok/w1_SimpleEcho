@@ -37,6 +37,7 @@ int main(void)
 	std::cout << "ul.print(2):" << std::endl;
 	ul.print(2);
 
+	ul.print();
 
 
 	std::cout << std::endl << "main() end" << std::endl;

@@ -58,7 +58,7 @@ void UserInfoList::del(UserKey _key)
 	*temp = nullptr;
 	head.erase(temp);
 }
-std::vector<UserInfo *>::iterator  UserInfoList::find(UserKey _key)
+std::vector<UserInfo *>::iterator UserInfoList::find(UserKey _key)
 {
 	std::vector<UserInfo *>::iterator it = head.end();
 	it = std::find_if(head.begin(), head.end(), [_key](UserInfo *& e) {
@@ -70,9 +70,11 @@ std::vector<UserInfo *>::iterator  UserInfoList::find(UserKey _key)
 
 	return it;
 }
-std::vector<UserInfo *>::const_iterator  UserInfoList::find(UserKey _key) const
+std::vector<UserInfo *>::const_iterator UserInfoList::find(UserKey _key) const
 {
-	std::vector<UserInfo *>::const_iterator it = head.cend();		//rev UserInfo *const 냐.. const UserInfo * 냐.. 아무래도 내가 const_iterator 쓰임을 잘못 알고 있는 모양.. 찾아보기: const_iterator, cbegin(), cend() 등등...
+	std::vector<UserInfo *>::const_iterator it = head.cend();		//rev UserInfo *const 냐.. const UserInfo * 냐.. 
+																	//		아무래도 내가 const_iterator 쓰임을 잘못 알고 있는 모양.. 
+																	//		찾아보기: const_iterator, cbegin(), cend() 등등...
 	it = std::find_if(head.cbegin(), head.cend(), [_key](UserInfo * const& e) {
 		if (e->get_key() == _key)
 			return true;
@@ -90,15 +92,20 @@ void UserInfoList::print(UserKey _key) const
 {
 	print(find(_key));
 	std::cout << std::endl;
-	//std::vector<UserInfo *>::const_iterator it = find(_key);
-	//std::cout << **it << std::endl;
 }
-void UserInfoList::printAll() const
+void UserInfoList::print() const
 {
-	//for_each(head.cbegin(), head.cend(), 
-
+	//for_each(head.cbegin(), head.cend(), print(UserInfo * & e));		//? error
+	//for_each(head.cbegin(), head.cend(), print(std::vector<UserInfo*>::const_iterator& it));		//? 형식이름을 사용할 수 없습니다??
+	std::cout << "----------------------------------------------------------------" << std::endl;
+	std::cout << "UserInfoList::print()\t>>" << std::endl;
+	for (auto it = head.cbegin(); it != head.cend(); ++it) {
+		print(it);
+		std::cout << "\t>>" << std::endl;
+	}
+	std::cout << "end()" << std::endl;
+	std::cout << "----------------------------------------------------------------" << std::endl;
 }
-
 
 // RoomInfo
 bool RoomInfo::joinUser(UserKey _uKey, HANDLE _hSocket)

@@ -102,7 +102,7 @@ public:
 	std::vector<UserInfo *>::const_iterator find(UserKey _key) const;
 	void print(std::vector<UserInfo *>::const_iterator& it) const;
 	void print(UserKey _key) const;
-	void printAll() const;
+	void print() const;
 };
 
 class RoomInfo

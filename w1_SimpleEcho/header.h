@@ -146,6 +146,7 @@ public:
 
 	bool operator==(const RoomInfo& _comparedRoom) const;
 	bool operator==(RoomKey _roomKey) const;
+	friend std::ostream& operator<<(std::ostream&, const RoomInfo&);
 };
 
 // RoomInfoList stored in Vector

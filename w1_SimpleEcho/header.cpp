@@ -165,6 +165,11 @@ bool RoomInfo::operator==(RoomKey _roomKey) const
 	else
 		return false;
 }
+std::ostream& operator<<(std::ostream& os, const RoomInfo& ri)
+{
+	std::cout << "key:" << ri.key << " |title:" << ri.title
+		<< " |participants(" << ri.users.size() << "): ";
+}
 
 // RoomInfoList class
 void RoomInfoList::add(std::string _title)

@@ -169,6 +169,7 @@ std::ostream& operator<<(std::ostream& os, const RoomInfo& ri)
 {
 	std::cout << "key:" << ri.key << " |title:" << ri.title
 		<< " |participants(" << ri.users.size() << "): ";
+	return os;
 }
 
 // RoomInfoList class
@@ -185,9 +186,9 @@ void RoomInfoList::del(RoomKey _key)
 	*it = nullptr;
 	head.erase(it);
 }
-std::vector<RoomInfo *>::iterator& RoomInfoList::find(RoomKey _key)
+std::vector<RoomInfo *>::iterator RoomInfoList::find(RoomKey _key)
 {
-	std::vector<RoomInfo *>::iterator& it = head.end();
+	auto it = head.end();
 	it = find_if(head.begin(), head.end(), [_key](RoomInfo *& e) {
 		if (e->get_key() == _key)
 			return true;
@@ -195,4 +196,35 @@ std::vector<RoomInfo *>::iterator& RoomInfoList::find(RoomKey _key)
 			return false;
 	});
 	return it;
+}
+std::vector<RoomInfo *>::const_iterator RoomInfoList::find(RoomKey _key) const
+{
+	std::vector<RoomInfo *>::const_iterator it = head.cend();
+	it = find_if(head.cbegin(), head.cend(), [_key](RoomInfo * const& e) {
+		if (e->get_key() == _key)
+			return true;
+		else
+			return false;
+	});
+	return it;
+}
+void RoomInfoList::print(std::vector<RoomInfo *>::const_iterator& it) const
+{
+	std::cout << **it;
+}
+void RoomInfoList::print(RoomKey rk) const
+{
+	print(find(rk));
+	std::cout << std::endl;
+}
+void RoomInfoList::print() const
+{
+	std::cout << "----------------------------------------------------------------" << std::endl;
+	std::cout << "UserInfoList::print()\t>>" << std::endl;
+	for (auto it = head.cbegin(); it != head.cend(); ++it) {
+		print(it);
+		std::cout << "\t>>" << std::endl;
+	}
+	std::cout << "end()" << std::endl;
+	std::cout << "----------------------------------------------------------------" << std::endl;
 }

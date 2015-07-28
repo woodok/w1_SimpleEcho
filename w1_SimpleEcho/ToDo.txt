@@ -16,6 +16,6 @@ To do list
 ¤± revise documentation
 
 ¤± build RoomInfoList class
+	- operator<< on string
 
 ¤± build serialization class (or packet class??)
-

@@ -167,7 +167,11 @@ public:
 	}
 	void add(std::string _title);
 	void del(RoomKey _key);
-	std::vector<RoomInfo *>::iterator& find(RoomKey _key);
+	std::vector<RoomInfo *>::iterator find(RoomKey _key);
+	std::vector<RoomInfo *>::const_iterator find(RoomKey _key) const;
+	void print(std::vector<RoomInfo *>::const_iterator& it) const;
+	void print(RoomKey rk) const;
+	void print() const;
 };
 
 #endif // !__HEADER_H_

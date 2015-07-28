@@ -6,16 +6,25 @@ To do list
 
 け build UserInfo class 
 	>> done
+
 け build UserInfoList class
 	>> done
+
 け build RoomInfo class
-	? do I have to store both of user key & user socket handle in RoomInfo class??
+	? do I need to store both of user key & user socket handle in RoomInfo class?? >> yes
 	>> done
+
 け class declarations & definitions devide(歳軒)
 	>> done
+
 け revise documentation
 
 け build RoomInfoList class
-	- operator<< on string
+	>> done
 
-け build serialization class (or packet class??)
+け distinguishing server holding data vs client holding data 
+	- define operator<< according to data type(like int, UserKey, string, RoomKey.. etc)
+
+け investigating actual data type transferring between server and client according to stage.
+
+け build Buffer class (serialization class (or packet class?))

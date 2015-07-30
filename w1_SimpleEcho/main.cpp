@@ -9,6 +9,9 @@ int main(void)
 
 	ul.add("man", INVALID_HANDLE_VALUE);
 	ul.add("hama", INVALID_HANDLE_VALUE);
+	ul.add("hoho1", INVALID_HANDLE_VALUE);
+	ul.add("hoho2", INVALID_HANDLE_VALUE);
+	ul.add("hoho3", INVALID_HANDLE_VALUE);
 
 	std::cout << "now find value.." << std::endl;
 

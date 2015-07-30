@@ -12,6 +12,8 @@
 #include <string>
 #include <utility>
 
+#include "functions.h"
+
 typedef int UserKey;
 typedef int RoomKey;
 
@@ -58,25 +60,22 @@ public:
 	{
 		std::cout << "~UserInfo() called" << std::endl;
 	}
-	
 	// member functions
 	void spellingCheck();			// replace protocol reserved delimiter
-
 	// Accessor
 	const std::string& get_id() const;
 	RoomKey get_roomNumber() const;
 	UserKey get_key() const;
 	HANDLE get_hSocket() const;
-
 	// Mutator
 	void set_id(std::string _newid);
 	void set_roomNumber(RoomKey _newRoomNum);
 	void set_key(UserKey _newkey);
 	void set_hSocket(HANDLE _newhSocket);
-
+	// operator overloading
 	bool operator== (UserKey _key) const;
 	bool operator== (const UserInfo& _uInfo) const;
-
+	friend class Buffer;
 	friend std::ostream& operator<<(std::ostream& os, const UserInfo& ui);
 };
 
@@ -146,6 +145,7 @@ public:
 
 	bool operator==(const RoomInfo& _comparedRoom) const;
 	bool operator==(RoomKey _roomKey) const;
+	friend class Buffer;
 	friend std::ostream& operator<<(std::ostream&, const RoomInfo&);
 };
 

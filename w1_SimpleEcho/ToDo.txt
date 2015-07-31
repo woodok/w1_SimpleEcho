@@ -17,10 +17,11 @@ To do list
 け class declarations & definitions devide(歳軒)
 	>> done
 
-け revise documentation
-
 け build RoomInfoList class
 	>> done
+
+け build new class which consists of room number and socket handle information.
+	>> very fast searching speed needed. -> map or hash structure
 
 け distinguishing server holding data vs client holding data 
 	- define operator<< according to data type(like int, UserKey, string, RoomKey.. etc)
@@ -28,3 +29,11 @@ To do list
 け investigating actual data type transferring between server and client according to stage.
 
 け build Buffer class (serialization class (or packet class?))
+
+け mysp namespace declaration
+
+け building System class which is the most surfaced interface.
+
+け studying map container
+
+け studying stream class.

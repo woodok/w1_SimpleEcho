@@ -32,6 +32,9 @@
     <ClInclude Include="functions.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="modular_server.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="header.cpp">
@@ -41,6 +44,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="functions.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="modular_server.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

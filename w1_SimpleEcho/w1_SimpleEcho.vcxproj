@@ -85,12 +85,14 @@
   <ItemGroup>
     <ClInclude Include="functions.h" />
     <ClInclude Include="header.h" />
+    <ClInclude Include="modular_server.h" />
     <ClInclude Include="serialization.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="functions.cpp" />
     <ClCompile Include="header.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="modular_server.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

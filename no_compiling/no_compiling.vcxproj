@@ -86,6 +86,7 @@
     <ClCompile Include="..\test\string_replace_char.cpp" />
     <ClCompile Include="..\test\test.cpp" />
     <ClCompile Include="..\test\typedef.cpp" />
+    <ClCompile Include="..\test\unordered_map.cpp" />
     <ClCompile Include="..\w1_SimpleEcho\test_arraysplit.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>

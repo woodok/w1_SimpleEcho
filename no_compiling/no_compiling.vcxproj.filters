@@ -45,5 +45,8 @@
     <ClCompile Include="..\test\move_semantic.cpp">
       <Filter>소스 파일\test</Filter>
     </ClCompile>
+    <ClCompile Include="..\test\unordered_map.cpp">
+      <Filter>소스 파일\test</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

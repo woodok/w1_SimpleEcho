@@ -1,36 +1,60 @@
 
-
 #include <iostream>
-#include <WinSock2.h>
 #include <algorithm>
-#include <map>
-#include <vector>
 #include <unordered_map>
 
 using std::cout;
-using std::cin;
 using std::endl;
+
+typedef std::unordered_map<int, double> umid;
 
 int main()
 {
-	cout << "main() start" << endl;
+	cout << "main() start" << endl << endl;
+	std::unordered_map<int, double> um;
 
-	std::unordered_map<int, std::vector<HANDLE>> um;
-	std::vector<HANDLE> vec{ INVALID_HANDLE_VALUE };
+	um.insert(std::unordered_map<int, double>::value_type(1, 1.2342));
+	um.insert(std::unordered_map<int, double>::value_type(2, 0.8273));
+	um.insert(std::unordered_map<int, double>::value_type(3, 12.0281));
+	um.insert(umid::value_type(10, 10.2341));
 
-	um.insert(std::unordered_map<int, std::vector<HANDLE>>::value_type(1, vec));
-	um.insert(std::unordered_map<int, std::vector<HANDLE>>::value_type(2, vec));
-	
-	um.find(2)->second.push_back(INVALID_HANDLE_VALUE);
+	// case1 => error
+	/*std::for_each(um.begin(), um.end(), [](std::unordered_map<int, double>::iterator & e) {
+		cout << e->first;
+	});*/
 
-	//for_each(um.begin(), um.end(), [](std::unordered_map<int, std::vector<HANDLE>> & e) {
-	for_each(um.begin(), um.end(), [](std::pair<int, std::vector<HANDLE>> & e) {
-		cout << "key:" << e.first << "\t|";
-		int idx = 0;
-		for_each(e.second.begin(), e.second.end(), [&idx](HANDLE & e) {
-			cout << "vec[" << idx++ << "]:" << e << " >> ";
-		});
-		cout << " (end)" << endl;
-		
+	// case2 => error
+	/*std::for_each(um.begin(), um.end(), [](std::pair<int, double> & e) {
+		cout << e.first;
+	});*/
+
+	// case3 => no error
+	cout << "case3" << endl;
+	std::for_each(um.begin(), um.end(), [](std::pair<int, double> e) {
+		cout << e.first << " ";
 	});
+	cout << endl;
+
+	// case4 => no error
+	cout << "case4" << endl;
+	for_each(um.begin(), um.end(), [](std::pair<const int, double> &e) {		// for_each ³ª std::for_each³ª no matter
+		cout << e.first << " ";
+	});
+	cout << endl;
+
+	// case5 => no error
+	cout << "case5" << endl;
+	std::for_each(um.begin(), um.end(), [](std::unordered_map<int, double>::value_type & e) {
+		cout << e.first << " ";
+	});
+	cout << endl;
+
+	// case6 => no error
+	cout << "case6" << endl;
+	std::for_each(um.begin(), um.end(), [](const std::unordered_map<int, double>::value_type & e){
+		cout << e.first << " ";
+	});
+	cout << endl;
+
+	cout << endl << "main() end" << endl;
 }

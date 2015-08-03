@@ -80,6 +80,7 @@
   <ItemGroup>
     <ClCompile Include="..\test\class_member_string_copy_test.cpp" />
     <ClCompile Include="..\test\list_remove_delete.cpp" />
+    <ClCompile Include="..\test\move_semantic.cpp" />
     <ClCompile Include="..\test\ref_arr.cpp" />
     <ClCompile Include="..\test\string.cpp" />
     <ClCompile Include="..\test\string_replace_char.cpp" />

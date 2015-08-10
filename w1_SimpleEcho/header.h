@@ -30,7 +30,9 @@ public:
 	enum { 
 		TITLE_SIZE = 100,		// max length of title number (, which has no meaning now cause title type changed to std::string)
 		MAX_USER = 4,			// max participants number per room
-		DEFAULT_ROOM_KEY = -1			// has no room key
+		DEFAULT_ROOM_KEY = -1,			// has no room key
+		STATE_NOT_PLAYING,
+		STATE_PLAYING
 	};
 };
 

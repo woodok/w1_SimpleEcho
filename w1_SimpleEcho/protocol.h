@@ -4,48 +4,89 @@
 
 namespace PROTOCOL
 {
-	class Login
+	// client -> server protocol
+	namespace Client
 	{
-	public:
-		enum {
-			LOGIN,
-			LAST
-		};
-	};
-	class Lobby
+		namespace Login
+		{
+			enum {
+				BEGIN = 0,
+
+				LAST
+			};
+		}
+		namespace Lobby
+		{
+			enum {
+				BEGIN = Login::LAST,
+
+				LAST
+			};
+		}
+		namespace CreateRoom
+		{
+			enum {
+				BEGIN = Lobby::LAST,
+
+				LAST
+			};
+		}
+		namespace Chatting
+		{
+			enum {
+				BEGIN = CreateRoom::LAST,
+
+				LAST
+			};
+		}
+	}
+
+	// server -> client protocol
+	namespace Server
 	{
-	public:
-		enum{
-			CREATE_ROOM = Login::LAST,
-			CREATE_ROOM_FAIL,
-			JOIN_ROOM,
-			JOIN_ROOM_FAIL,
-			RELOAD,
-			LAST
-		};
-	};
-	class CreateRoom
-	{
-	public:
-		enum {
-			CREATE_ROOM = Lobby::LAST,
-			CREATE_ROOM_FAIL,
-			LAST
-		};
-	};
-	class Chatting
-	{
-	public:
-		enum {
-			QUIT_ROOM = CreateRoom::LAST,
-			GUEST_STATE_READY,
-			GUEST_STATE_NOT_READY,
-			ROOM_STATE_NOT_PLAYING,
-			ROOM_STATE_PLAYING,
-			CHAT,
-			LAST
-		};
-	};
+		namespace Login
+		{
+			enum {
+				BEGIN = 0,
+				LOGIN,
+				LAST
+			};
+		}
+		namespace Lobby
+		{
+			enum{
+				BEGIN = Login::LAST,
+				CREATE_ROOM,
+				CREATE_ROOM_FAIL,
+				JOIN_ROOM,
+				JOIN_ROOM_FAIL,
+				RELOAD,
+				LAST
+			};
+		}
+		namespace CreateRoom
+		{
+			enum {
+				BEGIN = Lobby::LAST,
+				CREATE_ROOM,
+				CREATE_ROOM_FAIL,
+				LAST
+			};
+		}
+		namespace Chatting
+		{
+			enum {
+				BEGIN = CreateRoom::LAST,
+				QUIT_ROOM,
+				GUEST_STATE_READY,
+				GUEST_STATE_NOT_READY,
+				ROOM_STATE_NOT_PLAYING,
+				ROOM_STATE_PLAYING,
+				CHAT,
+				LAST
+			};
+		}
+	}
 }
 
 

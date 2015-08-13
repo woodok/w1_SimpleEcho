@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="unordered_map2.cpp" />
+    <ClCompile Include="namespace_enum_test.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{06E30934-9DAC-4028-8D96-66B299993ED9}</ProjectGuid>

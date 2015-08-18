@@ -10,33 +10,44 @@ namespace PROTOCOL
 		namespace Login
 		{
 			enum {
-				BEGIN = 0,
-
-				LAST
+				NO_MEANING_FIRST = 0,	// no meaning
+				// meaningful protocol keyword place from here
+				LOGIN,
+				// meaningful protocol keyword place to here
+				NO_MEANING_LAST			// no meaning
 			};
 		}
 		namespace Lobby
 		{
 			enum {
-				BEGIN = Login::LAST,
-
-				LAST
+				NO_MEANING_FIRST = Login::NO_MEANING_LAST,	// no meaning
+				// meaningful protocol keyword place from here
+				LOAD_LIST,
+				JOIN_ROOM,
+				NO_MEANING_LAST		// no meaning
 			};
 		}
 		namespace CreateRoom
 		{
 			enum {
-				BEGIN = Lobby::LAST,
-
-				LAST
+				NO_MEANING_FIRST = Lobby::NO_MEANING_LAST,		// no meaning
+				// meaningful protocol keyword place from here
+				CREATE_ROOM,				
+				NO_MEANING_LAST		// no meaning
 			};
 		}
 		namespace Chatting
 		{
 			enum {
-				BEGIN = CreateRoom::LAST,
-
-				LAST
+				NO_MEANING_FIRST = CreateRoom::NO_MEANING_LAST,		// no meaning
+				// meaningful protocol keyword place from here
+				QUIT_ROOM,
+				MY_STATE_READY,
+				MY_STATE_NOT_READY,
+				ROOM_STATE_PLAYING,
+				ROOM_STATE_NOT_PLAYING,
+				CHAT,
+				NO_MEANING_LAST		// no meaning
 			};
 		}
 	}
@@ -47,43 +58,48 @@ namespace PROTOCOL
 		namespace Login
 		{
 			enum {
-				BEGIN = 0,
-				LOGIN,
-				LAST
+				NO_MEANING_FIRST = Client::Chatting::NO_MEANING_LAST,	// no meaning
+				// meaningful protocol keyword place from here
+				LOGIN_OK,
+				NO_MEANING_LAST		// no meaning
 			};
 		}
 		namespace Lobby
 		{
 			enum{
-				BEGIN = Login::LAST,
-				CREATE_ROOM,
+				NO_MEANING_FIRST = Login::NO_MEANING_LAST,	// no meaning
+				// meaningful protocol keyword place from here
+				CREATE_ROOM_OK,
 				CREATE_ROOM_FAIL,
-				JOIN_ROOM,
+				JOIN_ROOM_OK,
 				JOIN_ROOM_FAIL,
-				RELOAD,
-				LAST
+				LOAD_LIST,
+				NO_MEANING_LAST		// no meaning
 			};
 		}
 		namespace CreateRoom
 		{
 			enum {
-				BEGIN = Lobby::LAST,
-				CREATE_ROOM,
+				NO_MEANING_FIRST = Lobby::NO_MEANING_LAST,	// no meaning
+				// meaningful protocol keyword place from here
+				CREATE_ROOM_OK,
 				CREATE_ROOM_FAIL,
-				LAST
+				NO_MEANING_LAST		// no meaning
 			};
 		}
 		namespace Chatting
 		{
 			enum {
-				BEGIN = CreateRoom::LAST,
+				NO_MEANING_FIRST = CreateRoom::NO_MEANING_LAST,	// no meaning
+				// meaningful protocol keyword place from here
 				QUIT_ROOM,
+				JOIN_USER,
 				GUEST_STATE_READY,
 				GUEST_STATE_NOT_READY,
-				ROOM_STATE_NOT_PLAYING,
 				ROOM_STATE_PLAYING,
+				ROOM_STATE_NOT_PLAYING,
 				CHAT,
-				LAST
+				NO_MEANING_LAST		// no meaning
 			};
 		}
 	}

@@ -1,20 +1,22 @@
 #include "../w1_SimpleEcho/header.h"
 
-// stage display functions
-// login stage
-void login();
-void roomSelection();
-void roomCreation();
-
-void login()
+namespace client
 {
-	std::cout << "--------------------------------------" << std::endl;
-	std::cout << "Please put your nickname: " << std::endl;
-	//std::cin >> nickbuf;
-}
+	void LoginProcess();
+	void LobbyProcess();
+	void CreatingRoomProcess();
+	void ChattingProcess();
 
-void roomSelection()
-{
-	std::cout << "--------------------------------------" << std::endl;
-	
+	void displayLogin();
+	void displayLobby(std::stringstream&& _ss);
+	void displayCreatingRoom();
+	void displayChatting();
+
+
+	void login()
+	{
+		std::cout << "--------------------------------------" << std::endl;
+		std::cout << "Please put your nickname: " << std::endl;
+		//std::cin >> nickbuf;
+	}
 }

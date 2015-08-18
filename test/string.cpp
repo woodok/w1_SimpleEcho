@@ -6,6 +6,9 @@ using std::cin;
 using std::cout;
 using std::endl;
 
+void function();
+void function(std::stringstream&& _ss);
+
 class Test
 {
 private:
@@ -65,8 +68,25 @@ int main(void)
 	std::stringstream ss;
 	ss.str(str2);
 
-	while (getline(ss, temp, '|'))
-		cout << temp << endl;
+	// case1
+	//while (getline(ss, temp, '|'))
+	//	cout << temp << endl;
+
+	// case2
+	function(std::move(ss));
 
 	return 0;	
+}
+
+void function()
+{
+
+}
+
+void function(std::stringstream&& _ss)
+{
+	std::string temp;
+
+	while (getline(_ss, temp, '|'))
+		cout << temp << endl;
 }

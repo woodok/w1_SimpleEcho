@@ -33,9 +33,6 @@
     <ClCompile Include="..\test\list_remove_delete.cpp">
       <Filter>소스 파일\test</Filter>
     </ClCompile>
-    <ClCompile Include="..\test\string.cpp">
-      <Filter>소스 파일\test</Filter>
-    </ClCompile>
     <ClCompile Include="..\test\string_replace_char.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -50,6 +47,9 @@
     </ClCompile>
     <ClCompile Include="..\test\unordered_map2.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test\namespace_enum_test.cpp">
+      <Filter>소스 파일\test</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

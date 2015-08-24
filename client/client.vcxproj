@@ -80,6 +80,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\w1_SimpleEcho\eClient.cpp" />
+    <ClCompile Include="clntHeader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="clntHeader.h" />

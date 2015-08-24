@@ -1,22 +1,89 @@
+
+#ifndef __CLNTHEADER_H_
+#define __CLNTHEADER_H_
+
 #include "../w1_SimpleEcho/header.h"
 
-namespace client
+//namespace client
+//{
+//	void LoginProcess();
+//	void LobbyProcess();
+//	void CreatingRoomProcess();
+//	void ChattingProcess();
+//
+//	void displayLogin();
+//	void displayLobby(std::stringstream&& _ss);
+//	void displayCreatingRoom();
+//	void displayChatting();
+//
+//
+//	void login()
+//	{
+//		std::cout << "--------------------------------------" << std::endl;
+//		std::cout << "Please put your nickname: " << std::endl;
+//		//std::cin >> nickbuf;
+//	}
+//}
+
+//?? class FSM을 정의해 상속하는건..?
+//		인터페이스 사용하고.
+class ClientFSM
 {
-	void LoginProcess();
-	void LobbyProcess();
-	void CreatingRoomProcess();
-	void ChattingProcess();
+	enum {
+		STATE_LOGIN,
+		STATE_LOBBY,
+		STATE_CREATINGROOM,
+		STATE_CHATTING,
+		STATE_QUIT
+	};
+private:
+	int state;
+public:
+	ClientFSM();
+	void start();
+	void running();
+	
+	
+};
 
-	void displayLogin();
-	void displayLobby(std::stringstream&& _ss);
-	void displayCreatingRoom();
-	void displayChatting();
+//?? 이렇게 겹치는게 많으니 
+//		class State를 정의해 상속하는건..?
+//		그리고 인터페이스 사용
+class Login
+{
+private:
+public:
+	static void display();
+
+};
+class Lobby
+{
+private:
+public:
+	static void display();
+
+};
+class CreatingRoom
+{
+private:
+public:
+	static void display();
+
+};
+class Chatting
+{
+private:
+public:
+	static void display();
+
+};
+class Quit
+{
+private:
+public:
+	static void display();
+
+};
 
 
-	void login()
-	{
-		std::cout << "--------------------------------------" << std::endl;
-		std::cout << "Please put your nickname: " << std::endl;
-		//std::cin >> nickbuf;
-	}
-}
+#endif // !__CLNTHEADER_H_

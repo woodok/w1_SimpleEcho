@@ -21,7 +21,9 @@ namespace USER_INFO
 {
 	enum {
 		DEFAULT_USER_KEY = -1,
-		ID_SIZE = 20			// max length of id number (, which has no meaning now cause id type changed to std::string)
+		ID_SIZE = 20,			// max length of id number (, which has no meaning now cause id type changed to std::string)
+		STATUS_NOT_READY = 0,
+		STATUS_READY = 1
 	};
 };
 class ROOM_INFO
@@ -31,8 +33,8 @@ public:
 		TITLE_SIZE = 100,		// max length of title number (, which has no meaning now cause title type changed to std::string)
 		MAX_USER = 4,			// max participants number per room
 		DEFAULT_ROOM_KEY = -1,			// has no room key
-		STATE_NOT_PLAYING,
-		STATE_PLAYING
+		STATE_NOT_PLAYING = 0,
+		STATE_PLAYING = 1
 	};
 };
 

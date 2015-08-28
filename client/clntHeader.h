@@ -4,6 +4,38 @@
 
 #include "../w1_SimpleEcho/header.h"
 
+typedef struct UInfo
+{
+	UserKey uKey;
+	std::string userNick;
+	int status;
+	
+	UInfo();
+	UInfo(UserKey _uKey, std::string&& _userNick, int _status);
+} UInfo;
+typedef struct RInfo
+{
+	RoomKey rKey;
+	std::string rTitle;
+	int curNumPart;
+	
+	RInfo();
+	RInfo(RoomKey _rKey, std::string&& _rTitle, int _curNumPart);
+} RInfo;
+
+typedef struct Buffer
+{
+	int state;
+	int packetType;
+	std::string userNick;
+	UserKey uKey;
+	RoomKey rKey;
+	std::vector<UInfo> uList;
+	std::vector<RInfo> RLIst;
+	std::string chat;
+	
+	//Buffer();		// 없어도 될 듯..
+} Buffer;
 //namespace client
 //{
 //	void LoginProcess();
@@ -24,6 +56,9 @@
 //		//std::cin >> nickbuf;
 //	}
 //}
+
+void decoding()		//rev 
+{}
 
 //?? class FSM을 정의해 상속하는건..?
 //		인터페이스 사용하고.

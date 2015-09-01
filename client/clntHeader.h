@@ -6,21 +6,25 @@
 
 typedef struct UInfo
 {
-	UserKey uKey;
-	std::string userNick;
-	int status;
+	UserKey uKey;			// userkey
+	std::string userNick;	// user's nick name
+	int status;				// user's ready/not ready status in room
 	
 	UInfo();
 	UInfo(UserKey _uKey, std::string&& _userNick, int _status);
+	UInfo(const UInfo& _uInfo);		// copy constructor
+	UInfo(UInfo&& _uInfo);		// move constructor
 } UInfo;
 typedef struct RInfo
 {
-	RoomKey rKey;
-	std::string rTitle;
-	int curNumPart;
+	RoomKey rKey;		// room key
+	std::string rTitle;	// room title
+	int curNumPart;		// number of current participants to the room
 	
 	RInfo();
 	RInfo(RoomKey _rKey, std::string&& _rTitle, int _curNumPart);
+	RInfo(const RInfo& _rInfo);		// copy constructor
+	RInfo(RInfo&& _rInfo);		// move constructor
 } RInfo;
 
 typedef struct Buffer
@@ -31,7 +35,7 @@ typedef struct Buffer
 	UserKey uKey;
 	RoomKey rKey;
 	std::vector<UInfo> uList;
-	std::vector<RInfo> RLIst;
+	std::vector<RInfo> rLIst;
 	std::string chat;
 	
 	//Buffer();		// 없어도 될 듯..

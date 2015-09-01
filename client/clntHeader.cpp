@@ -11,6 +11,16 @@ UInfo::UInfo(UserKey _uKey, std::string&& _userNick, int _status)
 	userNick = _userNick;
 	status = _status;
 }
+UInfo::UInfo(const UInfo& _uInfo)
+{
+	uKey = _uInfo.uKey;
+	userNick = _uInfo.userNick;
+	status = _uInfo.status;
+}
+UInfo::UInfo(UInfo&& _uInfo)
+{
+
+}
 RInfo::RInfo()
 {
 	rKey = ROOM_INFO::DEFAULT_ROOM_KEY;
@@ -21,6 +31,16 @@ RInfo::RInfo(RoomKey _rKey, std::string&& _rTitle, int _curNumPart)
 	rKey = _rKey;
 	rTitle = _rTitle;
 	curNumPart = _curNumPart;
+}
+RInfo::RInfo(const RInfo& _rInfo)
+{
+	rKey = _rInfo.rKey;
+	rTitle = _rInfo.rTitle;
+	curNumPart = _rInfo.curNumPart;
+}
+RInfo::RInfo(RInfo&& _rInfo)
+{
+
 }
 
 ClientFSM::ClientFSM() : state(ClientFSM::STATE_LOGIN) {};

@@ -51,5 +51,8 @@
     <ClCompile Include="..\test\namespace_enum_test.cpp">
       <Filter>소스 파일\test</Filter>
     </ClCompile>
+    <ClCompile Include="..\test\string.cpp">
+      <Filter>소스 파일\test</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -3,6 +3,7 @@
 #define __CLNTHEADER_H_
 
 #include "../w1_SimpleEcho/header.h"
+#include "../w1_SimpleEcho/protocol.h"
 
 typedef struct UInfo
 {
@@ -29,16 +30,18 @@ typedef struct RInfo
 
 typedef struct Buffer
 {
+public:
 	int state;
 	int packetType;
 	std::string userNick;
 	UserKey uKey;
 	RoomKey rKey;
 	std::vector<UInfo> uList;
-	std::vector<RInfo> rLIst;
+	std::vector<RInfo> rList;
 	std::string chat;
 	
-	//Buffer();		// 없어도 될 듯..
+public:
+	Buffer();
 } Buffer;
 //namespace client
 //{
@@ -61,8 +64,7 @@ typedef struct Buffer
 //	}
 //}
 
-void decoding()		//rev 
-{}
+void decoding(std::stringstream&& origSs, Buffer& decodedBuf);		//rev 
 
 //?? class FSM을 정의해 상속하는건..?
 //		인터페이스 사용하고.
@@ -85,44 +87,44 @@ public:
 	
 };
 
-//?? 이렇게 겹치는게 많으니 
-//		class State를 정의해 상속하는건..?
-//		그리고 인터페이스 사용
-class Login
-{
-private:
-public:
-	static void display();
-
-};
-class Lobby
-{
-private:
-public:
-	static void display();
-
-};
-class CreatingRoom
-{
-private:
-public:
-	static void display();
-
-};
-class Chatting
-{
-private:
-public:
-	static void display();
-
-};
-class Quit
-{
-private:
-public:
-	static void display();
-
-};
+////?? 이렇게 겹치는게 많으니 
+////		class State를 정의해 상속하는건..?
+////		그리고 인터페이스 사용
+//class Login
+//{
+//private:
+//public:
+//	static void display();
+//
+//};
+//class Lobby
+//{
+//private:
+//public:
+//	static void display();
+//
+//};
+//class CreatingRoom
+//{
+//private:
+//public:
+//	static void display();
+//
+//};
+//class Chatting
+//{
+//private:
+//public:
+//	static void display();
+//
+//};
+//class Quit
+//{
+//private:
+//public:
+//	static void display();
+//
+//};
 
 
 #endif // !__CLNTHEADER_H_

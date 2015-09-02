@@ -92,9 +92,9 @@ int main()
 	//Test v10;
 	
 	vector<Test> vec;
-	cout << "capacity of vec: " << vec.capacity() << endl;
+	//cout << "capacity of vec: " << vec.capacity() << endl;
 	//vector<Test&> rvec;		//? 가능..?
-	//vector<const Test&> crvec;	//? 가능..?
+	//vector<const Test&> vec;	//? 가능..?
 
 	cout << "------------------------" << endl;
 

@@ -19,7 +19,7 @@ UInfo::UInfo(const UInfo& _uInfo)
 }
 UInfo::UInfo(UInfo&& _uInfo)
 {
-
+	//rev
 }
 RInfo::RInfo()
 {
@@ -40,7 +40,39 @@ RInfo::RInfo(const RInfo& _rInfo)
 }
 RInfo::RInfo(RInfo&& _rInfo)
 {
+	//rev
+}
 
+Buffer::Buffer()
+{
+	uList.reserve(100);
+	rList.reserve(100);
+}
+
+void decoding(std::stringstream&& origSs, Buffer& decodedBuf)
+{
+	int ssLen;
+	std::string temp;
+	getline(origSs, temp, '|');
+	ssLen = stoi(temp);
+	getline(origSs, temp, '|');
+	decodedBuf.state = stoi(temp);
+	switch (decodedBuf.state) {
+	case PROTOCOL::Client::State::LOGIN:
+		//rev stringstream 예제 만들어서 테스트해보기.
+
+		break;
+	case PROTOCOL::Client::State::LOBBY:
+
+		break; 
+	case PROTOCOL::Client::State::CREATE_ROOM:
+
+			break;
+	case PROTOCOL::Client::State::CHATTING:
+		
+		break;
+	
+	}
 }
 
 ClientFSM::ClientFSM() : state(ClientFSM::STATE_LOGIN) {};

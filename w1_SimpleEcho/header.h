@@ -11,8 +11,10 @@
 #include <algorithm>
 #include <string>
 #include <utility>
+#include <sstream>
 
 #include "functions.h"
+#include "protocol.h"
 
 typedef int UserKey;
 typedef int RoomKey;

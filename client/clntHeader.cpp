@@ -5,7 +5,7 @@ UInfo::UInfo()
 	uKey = USER_INFO::DEFAULT_USER_KEY;
 	status = USER_INFO::STATUS_NOT_READY;
 }
-UInfo::UInfo(UserKey _uKey, std::string&& _userNick, int _status)
+UInfo::UInfo(std::string _uKey, std::string&& _userNick, std::string _status)
 {
 	uKey = _uKey;
 	userNick = _userNick;
@@ -24,9 +24,8 @@ UInfo::UInfo(UInfo&& _uInfo)
 RInfo::RInfo()
 {
 	rKey = ROOM_INFO::DEFAULT_ROOM_KEY;
-	curNumPart = 0;
 }
-RInfo::RInfo(RoomKey _rKey, std::string&& _rTitle, int _curNumPart)
+RInfo::RInfo(std::string _rKey, std::string&& _rTitle, std::string _curNumPart)
 {
 	rKey = _rKey;
 	rTitle = _rTitle;
@@ -58,17 +57,17 @@ void decoding(std::stringstream&& origSs, Buffer& decodedBuf)
 	getline(origSs, temp, '|');
 	decodedBuf.state = stoi(temp);
 	switch (decodedBuf.state) {
-	case PROTOCOL::Client::State::LOGIN:
+	case PROTOCOL::State::LOGIN:
 		//rev stringstream 예제 만들어서 테스트해보기.
 
 		break;
-	case PROTOCOL::Client::State::LOBBY:
+	case PROTOCOL::State::LOBBY:
 
 		break; 
-	case PROTOCOL::Client::State::CREATE_ROOM:
+	case PROTOCOL::State::CREATE_ROOM:
 
 			break;
-	case PROTOCOL::Client::State::CHATTING:
+	case PROTOCOL::State::CHATTING:
 		
 		break;
 	

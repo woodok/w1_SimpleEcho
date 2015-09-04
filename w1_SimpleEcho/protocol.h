@@ -4,18 +4,18 @@
 
 namespace PROTOCOL
 {
+	namespace State
+	{
+		enum {
+			LOGIN,
+			LOBBY,
+			CREATE_ROOM,
+			CHATTING
+		};
+	}
 	// client -> server protocol
 	namespace Client
 	{
-		namespace State
-		{
-			enum {
-				LOGIN,
-				LOBBY,
-				CREATE_ROOM,
-				CHATTING
-			};
-		}
 		namespace Login
 		{
 			enum {
@@ -64,15 +64,6 @@ namespace PROTOCOL
 	// server -> client protocol
 	namespace Server
 	{
-		namespace State
-		{
-			enum {
-				LOGIN,
-				LOBBY,
-				CREATE_ROOM,
-				CHATTING
-			};
-		}
 		namespace Login
 		{
 			enum {

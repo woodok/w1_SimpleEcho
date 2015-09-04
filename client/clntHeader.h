@@ -7,23 +7,23 @@
 
 typedef struct UInfo
 {
-	UserKey uKey;			// userkey
+	std::string uKey;		// userkey
 	std::string userNick;	// user's nick name
-	int status;				// user's ready/not ready status in room
+	std::string status;		// user's ready/not ready status in room
 	
 	UInfo();
-	UInfo(UserKey _uKey, std::string&& _userNick, int _status);
+	UInfo(std::string _uKey, std::string&& _userNick, std::string _status);
 	UInfo(const UInfo& _uInfo);		// copy constructor
 	UInfo(UInfo&& _uInfo);		// move constructor
 } UInfo;
 typedef struct RInfo
 {
-	RoomKey rKey;		// room key
-	std::string rTitle;	// room title
-	int curNumPart;		// number of current participants to the room
+	std::string rKey;		// room key
+	std::string rTitle;		// room title
+	std::string curNumPart;	// number of current participants to the room
 	
 	RInfo();
-	RInfo(RoomKey _rKey, std::string&& _rTitle, int _curNumPart);
+	RInfo(std::string _rKey, std::string&& _rTitle, std::string _curNumPart);
 	RInfo(const RInfo& _rInfo);		// copy constructor
 	RInfo(RInfo&& _rInfo);		// move constructor
 } RInfo;

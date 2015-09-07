@@ -19,6 +19,11 @@
 typedef int UserKey;
 typedef int RoomKey;
 
+namespace MYCONST
+{
+	const int BUF_SIZE = 1000;
+
+}
 namespace USER_INFO
 {
 	enum {

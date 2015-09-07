@@ -82,8 +82,8 @@
     <ClCompile Include="..\test\list_remove_delete.cpp" />
     <ClCompile Include="..\test\move_semantic.cpp" />
     <ClCompile Include="..\test\namespace_enum_test.cpp" />
+    <ClCompile Include="..\test\reference_param.cpp" />
     <ClCompile Include="..\test\ref_arr.cpp" />
-    <ClCompile Include="..\test\string.cpp" />
     <ClCompile Include="..\test\string_replace_char.cpp" />
     <ClCompile Include="..\test\test.cpp" />
     <ClCompile Include="..\test\typedef.cpp" />

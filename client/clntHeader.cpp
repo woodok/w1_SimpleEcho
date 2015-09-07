@@ -48,7 +48,7 @@ Buffer::Buffer()
 	rList.reserve(100);
 }
 
-void decoding(std::stringstream&& origSs, Buffer& decodedBuf)
+void decoding(std::stringstream& origSs, Buffer& decodedBuf)
 {
 	int ssLen;
 	std::string temp;
@@ -75,18 +75,23 @@ void decoding(std::stringstream&& origSs, Buffer& decodedBuf)
 }
 
 ClientFSM::ClientFSM() : state(ClientFSM::STATE_LOGIN) {};
-void ClientFSM::start()
+void ClientFSM::init()
 {
+	state = STATE_LOGIN;
 
 }
 void ClientFSM::running()
 {
+	Buffer data;
+	std::stringstream rcvSs;
+	char cbuf[MYCONST::BUF_SIZE];
+
 	while (true)
 	{
 		switch (state)
 		{
 		case STATE_LOGIN:
-			Login::display();
+			//Login::display();
 			//rev
 
 			state = STATE_LOBBY;

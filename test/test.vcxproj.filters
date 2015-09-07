@@ -15,7 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="reference_param.cpp">
+    <ClCompile Include="string.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="stringstream.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

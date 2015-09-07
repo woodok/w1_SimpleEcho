@@ -81,7 +81,7 @@ private:
 	int state;
 public:
 	ClientFSM();
-	void start();
+	void init();
 	void running();
 	
 	

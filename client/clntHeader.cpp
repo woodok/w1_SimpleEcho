@@ -48,6 +48,24 @@ Buffer::Buffer()
 	rList.reserve(100);
 }
 
+// 
+void stateDistinguisher(const ConnectionInfo& conInfo, int& state, int& msgLen)
+{
+	char buf[MYCONST::BUF_SIZE];
+	recv(conInfo.hSocket, buf, MYCONST::BUF_SIZE - 1, 0);
+	/*strLen = strbuf.size();
+	send(hSocket, strbuf.c_str(), strLen, 0);
+	readLen = 0;
+	while (1)
+	{
+		readLen += recv(hSocket, &message[readLen], BUF_SIZE - 1, 0);
+		if (readLen >= strLen)
+			break;
+	}
+	message[strLen] = 0;*/
+
+}
+
 void decoding(std::stringstream& origSs, Buffer& decodedBuf)
 {
 	int ssLen;
@@ -66,48 +84,48 @@ void decoding(std::stringstream& origSs, Buffer& decodedBuf)
 		break; 
 	case PROTOCOL::State::CREATE_ROOM:
 
-			break;
+		break;
 	case PROTOCOL::State::CHATTING:
 		
 		break;
 	
 	}
 }
-
-ClientFSM::ClientFSM() : state(ClientFSM::STATE_LOGIN) {};
-void ClientFSM::init()
-{
-	state = STATE_LOGIN;
-
-}
-void ClientFSM::running()
-{
-	Buffer data;
-	std::stringstream rcvSs;
-	char cbuf[MYCONST::BUF_SIZE];
-
-	while (true)
-	{
-		switch (state)
-		{
-		case STATE_LOGIN:
-			//Login::display();
-			//rev
-
-			state = STATE_LOBBY;
-			break;
-		case STATE_LOBBY:
-
-			break;
-		case STATE_CREATINGROOM:
-
-			break;
-		case STATE_CHATTING:
-
-			break;
-		case STATE_QUIT:
-
-			break;
-		}
-	}
-}
+// ClassFSM 필요 없을 듯..
+//ClientFSM::ClientFSM() : state(ClientFSM::STATE_LOGIN) {};
+//void ClientFSM::init()
+//{
+//	state = STATE_LOGIN;
+//
+//}
+//void ClientFSM::running()
+//{
+//	Buffer data;
+//	std::stringstream rcvSs;
+//	char cbuf[MYCONST::BUF_SIZE];
+//
+//	while (true)
+//	{
+//		switch (state)
+//		{
+//		case STATE_LOGIN:
+//			//Login::display();
+//			//rev
+//
+//			state = STATE_LOBBY;
+//			break;
+//		case STATE_LOBBY:
+//
+//			break;
+//		case STATE_CREATINGROOM:
+//
+//			break;
+//		case STATE_CHATTING:
+//
+//			break;
+//		case STATE_QUIT:
+//
+//			break;
+//		}
+//	}
+//}

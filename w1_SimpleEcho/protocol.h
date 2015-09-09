@@ -21,6 +21,7 @@ namespace PROTOCOL
 			enum {
 				NO_MEANING_FIRST = 0,	// no meaning
 				// meaningful protocol keyword place from here
+				CONFIRMED,
 				LOGIN,
 				// meaningful protocol keyword place to here
 				NO_MEANING_LAST			// no meaning
@@ -31,6 +32,7 @@ namespace PROTOCOL
 			enum {
 				NO_MEANING_FIRST = Login::NO_MEANING_LAST,	// no meaning
 				// meaningful protocol keyword place from here
+				CONFIRMED,
 				LOAD_LIST,
 				JOIN_ROOM,
 				NO_MEANING_LAST		// no meaning
@@ -41,7 +43,8 @@ namespace PROTOCOL
 			enum {
 				NO_MEANING_FIRST = Lobby::NO_MEANING_LAST,		// no meaning
 				// meaningful protocol keyword place from here
-				CREATE_ROOM,				
+				CONFIRMED,
+				CREATE_ROOM,
 				NO_MEANING_LAST		// no meaning
 			};
 		}
@@ -50,6 +53,7 @@ namespace PROTOCOL
 			enum {
 				NO_MEANING_FIRST = CreateRoom::NO_MEANING_LAST,		// no meaning
 				// meaningful protocol keyword place from here
+				CONFIRMED,
 				QUIT_ROOM,
 				MY_STATE_READY,
 				MY_STATE_NOT_READY,
@@ -64,11 +68,22 @@ namespace PROTOCOL
 	// server -> client protocol
 	namespace Server
 	{
-		namespace Login
+		namespace Connection
 		{
 			enum {
 				NO_MEANING_FIRST = Client::Chatting::NO_MEANING_LAST,	// no meaning
 				// meaningful protocol keyword place from here
+				READY,
+				// meaningful protocol keyword place to here
+				NO_MEANING_LAST			// no meaning
+			};
+		}
+		namespace Login
+		{
+			enum {
+				NO_MEANING_FIRST = 	Connection::NO_MEANING_LAST,	// no meaning
+				// meaningful protocol keyword place from here
+				DATA_READY,
 				LOGIN_OK,
 				NO_MEANING_LAST		// no meaning
 			};
@@ -78,6 +93,7 @@ namespace PROTOCOL
 			enum{
 				NO_MEANING_FIRST = Login::NO_MEANING_LAST,	// no meaning
 				// meaningful protocol keyword place from here
+				DATA_READY,
 				CREATE_ROOM_OK,
 				CREATE_ROOM_FAIL,
 				JOIN_ROOM_OK,
@@ -91,6 +107,7 @@ namespace PROTOCOL
 			enum {
 				NO_MEANING_FIRST = Lobby::NO_MEANING_LAST,	// no meaning
 				// meaningful protocol keyword place from here
+				DATA_READY,
 				CREATE_ROOM_OK,
 				CREATE_ROOM_FAIL,
 				NO_MEANING_LAST		// no meaning
@@ -101,6 +118,7 @@ namespace PROTOCOL
 			enum {
 				NO_MEANING_FIRST = CreateRoom::NO_MEANING_LAST,	// no meaning
 				// meaningful protocol keyword place from here
+				DATA_READY,
 				QUIT_ROOM,
 				JOIN_USER,
 				GUEST_STATE_READY,

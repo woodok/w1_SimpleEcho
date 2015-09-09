@@ -28,6 +28,13 @@ typedef struct RInfo
 	RInfo(RInfo&& _rInfo);		// move constructor
 } RInfo;
 
+typedef struct ConnetionInfo
+{
+	WSADATA wsaData;
+	SOCKET hSocket;
+	SOCKADDR_IN servAdr;
+
+} ConnectionInfo;
 typedef struct Buffer
 {
 public:
@@ -63,6 +70,8 @@ public:
 //		//std::cin >> nickbuf;
 //	}
 //}
+
+void stateDistinguisher(const ConnectionInfo& conInfo, int& state, int& msgLen);
 
 void decoding(std::stringstream&& origSs, Buffer& decodedBuf);		//rev 
 

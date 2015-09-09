@@ -19,6 +19,9 @@
 typedef int UserKey;
 typedef int RoomKey;
 
+const char * server_address = "198.0.0.1";		//? loopback 주소 맞나..?
+const char * server_port = "9190";
+
 namespace MYCONST
 {
 	const int BUF_SIZE = 1000;

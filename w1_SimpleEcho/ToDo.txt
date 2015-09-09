@@ -1,5 +1,36 @@
 To do list
+ㅁ ?? 함수에 structure를 넘겨줄 때 structure의 member의 메모리 주소를 알고 싶을때..?
 
+ㅁ clntHeader.cpp stateDistinguisher() 작업 중..
+
+ㅁ ?? stringstream -> str -> char array 저장 시 '/0' 저장될까..?
+		stringstream <-> string <-> char array 변환 시 '/0' 처리
+.
+.
+ㅁ build new class which consists of room number and socket handle information.
+	>> very fast searching speed needed. -> map or hash structure
+
+ㅁ distinguishing server holding data vs client holding data 
+	- define operator<< according to data type(like int, UserKey, string, RoomKey.. etc)
+
+ㅁ investigating actual data type transferring between server and client according to stage.
+
+ㅁ build Buffer class (serialization class (or packet class?))
+
+ㅁ mysp namespace declaration
+
+ㅁ building System class which is the most surfaced interface.
+
+ㅁ studying map container
+
+ㅁ studying stream class
+
+.
+.
+.
+.
+.
+Has done list
 ㅁ Proj test :: string.cpp
 	split string with certain delimiter using stringstream and getline(..)
 	>> done
@@ -19,21 +50,3 @@ To do list
 
 ㅁ build RoomInfoList class
 	>> done
-
-ㅁ build new class which consists of room number and socket handle information.
-	>> very fast searching speed needed. -> map or hash structure
-
-ㅁ distinguishing server holding data vs client holding data 
-	- define operator<< according to data type(like int, UserKey, string, RoomKey.. etc)
-
-ㅁ investigating actual data type transferring between server and client according to stage.
-
-ㅁ build Buffer class (serialization class (or packet class?))
-
-ㅁ mysp namespace declaration
-
-ㅁ building System class which is the most surfaced interface.
-
-ㅁ studying map container
-
-ㅁ studying stream class.

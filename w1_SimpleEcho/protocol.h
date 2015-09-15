@@ -119,7 +119,7 @@ namespace PROTOCOL
 				NO_MEANING_FIRST = CreateRoom::NO_MEANING_LAST,	// no meaning
 				// meaningful protocol keyword place from here
 				DATA_READY,
-				QUIT_ROOM,
+				QUIT_USER,
 				JOIN_USER,
 				GUEST_STATE_READY,
 				GUEST_STATE_NOT_READY,

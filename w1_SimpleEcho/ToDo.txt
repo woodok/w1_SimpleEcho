@@ -3,6 +3,10 @@ To do list
 
 ㅁ clntHeader.cpp stateDistinguisher() 작업 중..
 
+ㅁ client 의 connection confirm protocol 은 없어도 될 듯..
+
+ㅁ recvBuffer 와 sendBuffer class 만들기
+
 ㅁ ?? stringstream -> str -> char array 저장 시 '/0' 저장될까..?
 		stringstream <-> string <-> char array 변환 시 '/0' 처리
 .

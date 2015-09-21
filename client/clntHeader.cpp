@@ -48,7 +48,8 @@ Buffer::Buffer()
 	rList.reserve(100);
 }
 
-// 
+//  
+//
 void stateDistinguisher(const ConnectionInfo& conInfo, int& state, int& msgLen)
 {
 	char buf[MYCONST::BUF_SIZE];

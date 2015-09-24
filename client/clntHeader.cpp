@@ -42,12 +42,20 @@ RInfo::RInfo(RInfo&& _rInfo)
 	//rev
 }
 
-Buffer::Buffer()
+ToClntBuffer::ToClntBuffer()
 {
 	uList.reserve(100);
 	rList.reserve(100);
 }
+int receiving(const ConnectionInfo& conInfo, ToClntBuffer& clntBuf, std::stringstream& ssBuf)
+{
+	char 
+	return 0;
+}
+int sending(const ConnectionInfo& conInfo, const std::stringstream& ssBuf)
+{
 
+}
 //  
 //
 void stateDistinguisher(const ConnectionInfo& conInfo, int& state, int& msgLen)
@@ -67,7 +75,7 @@ void stateDistinguisher(const ConnectionInfo& conInfo, int& state, int& msgLen)
 
 }
 
-void decoding(std::stringstream& origSs, Buffer& decodedBuf)
+void decoding(std::stringstream& origSs, ToClntBuffer& decodedBuf)
 {
 	int ssLen;
 	std::string temp;

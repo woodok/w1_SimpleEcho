@@ -35,7 +35,7 @@ typedef struct ConnetionInfo
 	SOCKADDR_IN servAdr;
 
 } ConnectionInfo;
-typedef struct Buffer
+typedef struct ToClntBuffer
 {
 public:
 	int state;
@@ -48,8 +48,15 @@ public:
 	std::string chat;
 	
 public:
-	Buffer();
-} Buffer;
+	ToClntBuffer();
+} ToClntBuffer;
+typedef struct ToServBuffer		//rev
+{
+public:
+
+public:
+	ToServBuffer();
+} ToServBuffer;
 //namespace client
 //{
 //	void LoginProcess();
@@ -70,6 +77,9 @@ public:
 //		//std::cin >> nickbuf;
 //	}
 //}
+
+int receiving(const ConnectionInfo& conInfo, ToClntBuffer& recvBuf, std::stringstream& ssBuf);
+int sending(const ConnectionInfo& conInfo, const std::stringstream& ssBuf);
 
 void stateDistinguisher(const ConnectionInfo& conInfo, int& state, int& msgLen);
 

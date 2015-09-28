@@ -49,6 +49,11 @@ ToClntBuffer::ToClntBuffer()
 }
 int receiving(const ConnectionInfo& conInfo, ToClntBuffer& clntBuf, std::stringstream& ssBuf)
 {
+	//rev
+	// hand shaking (msg length check) 부터..
+	// receiving은 server side와 client side로 각각 구현해야할까..?
+	// hand shaking 이 필요한 state를 추려내기 -> server side 와 client side 가 다를 수 있음
+	// state 판정 -> 판정 결과에 따라 switch 하여 hand shaking 있는 경우, 없는 경우로 나뉨..
 	char 
 	return 0;
 }

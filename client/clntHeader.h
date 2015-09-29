@@ -35,6 +35,7 @@ typedef struct ConnetionInfo
 	SOCKADDR_IN servAdr;
 
 } ConnectionInfo;
+// buffer for data incoming client 
 typedef struct ToClntBuffer
 {
 public:
@@ -50,6 +51,7 @@ public:
 public:
 	ToClntBuffer();
 } ToClntBuffer;
+// buffer for data toward server
 typedef struct ToServBuffer		//rev
 {
 public:

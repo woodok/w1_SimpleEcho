@@ -36,22 +36,35 @@ int main(int argc, char * argv[])
 	SOCKET hServSock;
 	SOCKADDR_IN servAdr;
 	int recvBytes, i, flags = 0;
+
+	if (argc != 2) {
+		printf("Usage : %s <port>\n", argv[0]);
+		exit(1);
+	}
+
 	if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0)
 		ErrorHandling("WSAStartup() error");
 
 	hComPort = CreateIoCompletionPort(INVALID_HANDLE_VALUE, NULL, 0, 0);
 	GetSystemInfo(&sysInfo);
 	for (i = 0; i < sysInfo.dwNumberOfProcessors; i++)
-		_beginthreadex(NULL, 0, EchoThreadMain, (LPVOID)hComPort, 0, NULL);
+		_beginthreadex(NULL, 0, (unsigned(__stdcall *)(void*))EchoThreadMain, (LPVOID)hComPort, 0, NULL);
+	puts("thread creation ok");
 
 	hServSock = WSASocket(AF_INET, SOCK_STREAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED);
 	memset(&servAdr, 0, sizeof(servAdr));
 	servAdr.sin_family = AF_INET;
 	servAdr.sin_addr.s_addr = htonl(INADDR_ANY);
 	servAdr.sin_port = htons(atoi(argv[1]));
+	//servAdr.sin_port = htons(atoi("9190"));
+	puts("socket() ok");
 
 	bind(hServSock, (SOCKADDR *)&servAdr, sizeof(servAdr));
+	puts("bind() ok");
 	listen(hServSock, 5);
+	puts("listen() ok");
+
+	puts("All things set.");
 
 	while (1)
 	{
@@ -125,9 +138,4 @@ void ErrorHandling(char *msg)
 	fputs(msg, stderr);
 	fputc('\n', stderr);
 	exit(1);
-}
-			}
-		}
-
-	}
 }

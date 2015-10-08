@@ -79,7 +79,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\w1_SimpleEcho\eServer.cpp" />
+    <ClCompile Include="..\w1_SimpleEcho\eServer.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="server.cpp" />
   </ItemGroup>
   <ItemGroup>

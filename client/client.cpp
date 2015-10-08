@@ -31,8 +31,9 @@ int main(int argc, char * argv[])
 	if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0)
 		ErrorHandling("WSAStartup() error");
 
-	sprintf(name, "%s", argv[3]);
+	sprintf(name, "[%s]", argv[3]);
 	hSock = socket(PF_INET, SOCK_STREAM, 0);
+	puts("socket() ok");
 
 	memset(&servAdr, 0, sizeof(servAdr));
 	servAdr.sin_family = AF_INET;
@@ -41,9 +42,12 @@ int main(int argc, char * argv[])
 
 	if (connect(hSock, (SOCKADDR *)&servAdr, sizeof(servAdr)) == SOCKET_ERROR)
 		ErrorHandling("connect() error");
+	puts("connect() ok");
 
 	hSndThread = (HANDLE)_beginthreadex(NULL, 0, SendMsg, (void *)&hSock, 0, NULL);
 	hRcvThread = (HANDLE)_beginthreadex(NULL, 0, RecvMsg, (void *)&hSock, 0, NULL);
+	puts("thread creation ok");
+	puts("All things set. You go.");
 
 	WaitForSingleObject(hSndThread, INFINITE);
 	WaitForSingleObject(hRcvThread, INFINITE);

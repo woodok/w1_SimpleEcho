@@ -1,66 +1,95 @@
-#define _WINSOCK_DEPRECATED_NO_WARNINGS
+//466p, 515p 참조
+
+#define _CRT_SECURE_NO_WARNINGS
 
 #include <cstdio>
 #include <cstdlib>
-#include <WinSock2.h>
-#include "clntHeader.h"
+#include <cstring>
+#include <Windows.h>
+#include <process.h>
 
-#include "../w1_SimpleEcho/header.h"
+#define BUF_SIZE 100
+#define NAME_SIZE 20
 
-//#define BUF_SIZE 1024
-void ErrorHandling(char * message);
+unsigned WINAPI SendMsg(void * arg);
+unsigned WINAPI RecvMsg(void * arg);
+void ErrorHandling(char * msg);
 
-int main()
+char name[NAME_SIZE] = "[DEFAULT]";
+char msg[BUF_SIZE];
+
+int main(int argc, char * argv[])
 {
-	/*WSADATA wsaData;
-	SOCKET hSocket;
-	SOCKADDR_IN servAdr;*/		//rev conInfo 안으로 다 들어감
-	ConnectionInfo conInfo;
-	//char message[BUF_SIZE];		//rev 앞으로 코드에서 나오는 부분 모두 수정
-	int strLen, readLen;
-	
-	bool flagExit = false;
-	int state;
-	char cbuf[MYCONST::BUF_SIZE];
-	Buffer recvBuf;
-
-	if (WSAStartup(MAKEWORD(2, 2), &conInfo.wsaData) != 0)
+	WSADATA wsaData;
+	SOCKET hSock;
+	SOCKADDR_IN servAdr;
+	HANDLE hSndThread, hRcvThread;
+	if (argc != 4) {
+		printf("Usage: %s <IP> <port> <name>\n", argv[0]);
+		exit(1);
+	}
+	if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0)
 		ErrorHandling("WSAStartup() error");
 
-	conInfo.hSocket = socket(PF_INET, SOCK_STREAM, 0);
-	if (conInfo.hSocket == INVALID_SOCKET)
-		ErrorHandling("socket() error");
+	sprintf(name, "%s", argv[3]);
+	hSock = socket(PF_INET, SOCK_STREAM, 0);
 
-	memset(&(conInfo.servAdr), 0, sizeof(conInfo.servAdr));		//? 함수 안에 들어가는걸 이렇게 써도 되나..?
-	conInfo.servAdr.sin_family = AF_INET;
-	conInfo.servAdr.sin_addr.s_addr = inet_addr(server_address);
-	//servAdr.sin_addr.s_addr = inetPton(argv[1]);
-	conInfo.servAdr.sin_port = htons(atoi(server_port));
+	memset(&servAdr, 0, sizeof(servAdr));
+	servAdr.sin_family = AF_INET;
+	servAdr.sin_addr.s_addr = inet_addr(argv[1]);
+	servAdr.sin_port = htons(atoi(argv[2]));
 
-	if (connect(conInfo.hSocket, (SOCKADDR *)&(conInfo.servAdr), sizeof(conInfo.servAdr)) == SOCKET_ERROR)	//? 함수 안에 들어가는걸 이렇게 써도 되나..?
+	if (connect(hSock, (SOCKADDR *)&servAdr, sizeof(servAdr)) == SOCKET_ERROR)
 		ErrorHandling("connect() error");
-	else
-		puts("Connected..........");
 
-	//rev 
-	// state machine 
-	while (flagExit != false)
-	{
+	hSndThread = (HANDLE)_beginthreadex(NULL, 0, SendMsg, (void *)&hSock, 0, NULL);
+	hRcvThread = (HANDLE)_beginthreadex(NULL, 0, RecvMsg, (void *)&hSock, 0, NULL);
 
+	WaitForSingleObject(hSndThread, INFINITE);
+	WaitForSingleObject(hRcvThread, INFINITE);
 
-	}
-
-
-
-	// close connection & wrap-up
-	closesocket(hSocket);
+	closesocket(hSock);
 	WSACleanup();
 	return 0;
 }
 
-void ErrorHandling(char * message)
+unsigned WINAPI SendMsg(void * arg)
 {
-	fputs(message, stderr);
-	fputc('\n', stderr);
-	exit(1);
+	SOCKET hSock = *((SOCKET *)arg);
+	char nameMsg[NAME_SIZE + BUF_SIZE];
+	while (1)
+	{
+		fgets(msg, BUF_SIZE, stdin);
+		if (!strcmp(msg, "q\n") || !strcmp(msg, "Q\n"))
+		{
+			closesocket(hSock);
+			exit(0);
+		}
+		sprintf(nameMsg, "%s %s", name, msg);
+		send(hSock, nameMsg, strlen(nameMsg), 0);
+	}
+	return 0;
+}
+
+unsigned WINAPI RecvMsg(void * arg)
+{
+	int hSock = *((SOCKET*)arg);
+	char nameMsg[NAME_SIZE + BUF_SIZE];
+	int strLen;
+	while (1)
+	{
+		strLen = recv(hSock, nameMsg, NAME_SIZE + BUF_SIZE - 1, 0);
+		if (strLen == -1)
+			return -1;
+		nameMsg[strLen] = 0;
+		fputs(nameMsg, stdout);
+	}
+	return 0;
+}
+
+void ErrorHandling(char * msg)
+{
+	fputs(msg, stderr);
+	putc('\n', stderr);
+	exit(0);
 }

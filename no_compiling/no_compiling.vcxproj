@@ -14,6 +14,7 @@
     <ProjectGuid>{32FA763E-28BA-44B1-B40C-6C611A35760D}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>no_compiling</RootNamespace>
+    <ProjectName>__no_compiling__</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

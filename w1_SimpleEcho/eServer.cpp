@@ -109,14 +109,16 @@ DWORD WINAPI EchoThreadMain(LPVOID pComPort)
 				continue;
 			}
 
+			// 데이터 송신 위한 세팅
 			memset(&(ioInfo->overlapped), 0, sizeof(OVERLAPPED));
 			ioInfo->wsaBuf.len = bytesTrans;
 			ioInfo->rwMode = WRITE;
 			WSASend(sock, &(ioInfo->wsaBuf), 1, NULL, 0, &(ioInfo->overlapped), NULL);
+			// 데이터 수신 위한 세팅
 			ioInfo = (LPPER_IO_DATA)malloc(sizeof(PER_IO_DATA));
 			memset(&(ioInfo->overlapped), 0, sizeof(OVERLAPPED));
-			ioInfo->wsaBuf.len = BUF_SIZE;
-			ioInfo->wsaBuf.buf = ioInfo->buffer;
+			ioInfo->wsaBuf.len = BUF_SIZE;			// 받을 데이터 버퍼의 리미트 지정 
+			ioInfo->wsaBuf.buf = ioInfo->buffer;	// 받을 데이터(버퍼) 지정
 			ioInfo->rwMode = READ;
 			WSARecv(sock, &(ioInfo->wsaBuf), 1, NULL, &flags, &(ioInfo->overlapped), NULL);
 		}

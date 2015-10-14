@@ -70,7 +70,7 @@ std::vector<UserInfo *>::iterator UserInfoList::find(UserKey _key)
 
 	return it;
 }
-std::vector<UserInfo *>::const_iterator UserInfoList::find(UserKey _key) const
+	std::vector<UserInfo *>::const_iterator UserInfoList::find(UserKey _key) const
 {
 	std::vector<UserInfo *>::const_iterator it = head.cend();		//rev UserInfo *const 냐.. const UserInfo * 냐.. 
 																	//		아무래도 내가 const_iterator 쓰임을 잘못 알고 있는 모양.. 

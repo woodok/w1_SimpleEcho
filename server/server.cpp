@@ -8,6 +8,9 @@
 #include <sstream>
 #include <string>
 
+#include "servHeader.h"
+#include "../w1_SimpleEcho/protocol.h"
+
 #define BUF_SIZE 100
 #define READ 3
 #define WRITE 5
@@ -28,6 +31,9 @@ typedef struct		// bufferinfo
 
 DWORD WINAPI EchoThreadMain(LPVOID CompletionPortIO);
 void ErrorHandling(char * message);
+
+UserInfoList ul;
+RoomInfoList ri;
 
 int main(int argc, char * argv[])
 {
@@ -115,41 +121,70 @@ DWORD WINAPI EchoThreadMain(LPVOID pComPort)
 				free(handleInfo); free(ioInfo);
 				continue;
 			}
-			//std::string str(ioInfo->buffer);
-			std::string str;
-			std::stringstream ss("");
-			ss << ioInfo->buffer;		// 이상한 값까지 같이 찍혀나옴. buffer 안에 있는 값을 string 만큼만 복사하는게 아니라 전부 다집어넣는 듯..
-			//str = ioInfo->buffer;	
 			
-			str = ss.str();
-			std::cout << "str length: " << str.length() << "content: " << str << std::endl;		// 서버에서 받은 값을 화면에 출력(디버깅용)
-			//puts(ss.str().c_str());
-			//std::cout << str << std::endl;
+			//
+			// client 에서 받은 메시지 deserialize process
 
-			memset(&(ioInfo->overlapped), 0, sizeof(OVERLAPPED));
-			// 메시지 처리 사항 넣기
-			int select = std::stoi(str);
-			
-			switch (select) {
-			case 0:
-				str = "0: recv.";
+			// 실험
+			//std::string str;
+			//std::stringstream ss("");
+			//ss << ioInfo->buffer;		// 이상한 값까지 같이 찍혀나옴. buffer 안에 있는 값을 string 만큼만 복사하는게 아니라 전부 다집어넣는 듯..
+
+			std::string tmpStr;
+			std::stringstream tmpSs;
+			tmpSs << ioInfo->buffer;
+
+			std::getline(tmpSs, tmpStr, '|');
+			int msgType = std::stoi(tmpStr);
+
+			switch (msgType) {
+			case PROTOCOL::Client::Login::LOGIN:
+				std::getline(tmpSs, tmpStr, '|');
+				ul.add()
 				break;
-			case 1:
-				str = "1: recv.";
+			case PROTOCOL::Client::Lobby::CONFIRMED:
+
 				break;
-			case 2:
-				str = "2: recv.";
+			case PROTOCOL::Client::Lobby::LOAD_LIST:
+
 				break;
-			default:
-				str = "(int) out of range";
+			case PROTOCOL::Client::Lobby::JOIN_ROOM:
+
+				break;
+			case PROTOCOL::Client::CreateRoom::CONFIRMED:
+
+				break;
+			case PROTOCOL::Client::CreateRoom::CREATE_ROOM:
+
+				break;
+			case PROTOCOL::Client::Chatting::CONFIRMED:
+
+				break;
+			case PROTOCOL::Client::Chatting::QUIT_ROOM:
+
+				break;
+			case PROTOCOL::Client::Chatting::MY_STATE_READY:
+
+				break;
+			case PROTOCOL::Client::Chatting::MY_STATE_NOT_READY:
+
+				break;
+			case PROTOCOL::Client::Chatting::ROOM_STATE_PLAYING:
+
+				break;
+			case PROTOCOL::Client::Chatting::ROOM_STATE_NOT_PLAYING:
+
+				break;
+			case PROTOCOL::Client::Chatting::CHAT:
+
 				break;
 			}
 			
+			//
 			// data 송신 위한 버퍼 세팅
-			//strcpy(ioInfo->buffer, str.c_str());
-			strcpy_s(ioInfo->buffer, str.c_str());
-			ioInfo->wsaBuf.len = str.length();
-			std::cout << "sending buffer len: " << ioInfo->wsaBuf.len << std::endl;
+			memset(&(ioInfo->overlapped), 0, sizeof(OVERLAPPED));
+			//ioInfo->wsaBuf.len = bytesTrnas;		//rev 송신 버퍼 크기 수정
+			//std::cout << "sending buffer len: " << ioInfo->wsaBuf.len << std::endl;
 			ioInfo->rwMode = WRITE;
 			WSASend(sock, &(ioInfo->wsaBuf), 1, NULL, 0, &(ioInfo->overlapped), NULL);
 

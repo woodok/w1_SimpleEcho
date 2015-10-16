@@ -53,10 +53,10 @@ class UserInfo
 private:
 	UserKey key;		// unique key for distinguishing user
 	std::string id;		// login id
-	HANDLE hSocket;
+	SOCKET hSocket;
 	RoomKey roomNumber;		// the number of room which the user currently participate. (Not in the room = 0)
 public:
-	UserInfo(UserKey _key, std::string _id, HANDLE _hSocket, RoomKey _roomNum = ROOM_INFO::DEFAULT_ROOM_KEY)
+	UserInfo(UserKey _key, std::string _id, SOCKET _hSocket, RoomKey _roomNum = ROOM_INFO::DEFAULT_ROOM_KEY)
 		: key(_key), roomNumber(_roomNum)
 	{
 		id = _id;				//? move semantic 사용해야하나..?
@@ -80,12 +80,12 @@ public:
 	const std::string& get_id() const;
 	RoomKey get_roomNumber() const;
 	UserKey get_key() const;
-	HANDLE get_hSocket() const;
+	SOCKET get_hSocket() const;
 	// Mutator
 	void set_id(std::string _newid);
 	void set_roomNumber(RoomKey _newRoomNum);
 	void set_key(UserKey _newkey);
-	void set_hSocket(HANDLE _newhSocket);
+	void set_hSocket(SOCKET _newhSocket);
 	// operator overloading
 	bool operator== (UserKey _key) const;
 	bool operator== (const UserInfo& _uInfo) const;
@@ -109,7 +109,7 @@ public:
 			e = nullptr;
 		});
 	}
-	void add(std::string _newid, HANDLE _hSocket, RoomKey _newRoomNum = ROOM_INFO::DEFAULT_ROOM_KEY);
+	void add(std::string _newid, SOCKET _hSocket, RoomKey _newRoomNum = ROOM_INFO::DEFAULT_ROOM_KEY);
 	void del(UserKey _key);
 	std::vector<UserInfo *>::iterator find(UserKey _key);
 	std::vector<UserInfo *>::const_iterator find(UserKey _key) const;
@@ -123,7 +123,7 @@ class RoomInfo
 private:
 	RoomKey key;
 	std::string title;
-	std::vector<std::pair<UserKey, HANDLE>> users;
+	std::vector<std::pair<UserKey, SOCKET>> users;
 public:
 	RoomInfo(RoomKey _key, std::string _title) : key(_key)
 	{
@@ -146,7 +146,7 @@ public:
 
 	// member functions
 	void spellingCheck();
-	bool joinUser(UserKey _uKey, HANDLE _hSocket);
+	bool joinUser(UserKey _uKey, SOCKET _hSocket);
 	bool quitUser(UserKey _uKey);
 
 	// Accessor

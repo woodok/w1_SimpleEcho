@@ -9,7 +9,7 @@ void UserInfo::spellingCheck()
 const std::string& UserInfo::get_id() const	{ return id; }
 RoomKey UserInfo::get_roomNumber() const	{ return roomNumber; }
 UserKey UserInfo::get_key() const			{ return key; }
-HANDLE UserInfo::get_hSocket() const	{ return hSocket; }
+SOCKET UserInfo::get_hSocket() const	{ return hSocket; }
 void UserInfo::set_id(std::string _newid)
 {
 	id = _newid;
@@ -17,7 +17,7 @@ void UserInfo::set_id(std::string _newid)
 }
 void UserInfo::set_roomNumber(RoomKey _newRoomNumber)	{ roomNumber = _newRoomNumber; }
 void UserInfo::set_key(UserKey _newkey)		{ key = _newkey; }
-void UserInfo::set_hSocket(HANDLE _newhSocket)		 { hSocket = _newhSocket; }
+void UserInfo::set_hSocket(SOCKET _newhSocket)		 { hSocket = _newhSocket; }
 bool UserInfo::operator== (UserKey _key) const
 {
 	return key == _key;
@@ -34,7 +34,7 @@ std::ostream& operator<<(std::ostream& os, const UserInfo& ui)
 }
 
 // UserInfoList
-void UserInfoList::add(std::string _newid, HANDLE _hSocket, RoomKey _newRoomNum)
+void UserInfoList::add(std::string _newid, SOCKET _hSocket, RoomKey _newRoomNum)
 {
 	objCreated++;
 	head.push_back(new UserInfo(objCreated, _newid, _hSocket, _newRoomNum));
@@ -108,7 +108,7 @@ void UserInfoList::print() const
 }
 
 // RoomInfo
-bool RoomInfo::joinUser(UserKey _uKey, HANDLE _hSocket)
+bool RoomInfo::joinUser(UserKey _uKey, SOCKET _hSocket)
 {
 	if (users.size() < ROOM_INFO::MAX_USER) {
 		users.push_back(std::make_pair(_uKey, _hSocket));	//? move semantic 써야하지 않나..? 
@@ -121,8 +121,8 @@ bool RoomInfo::joinUser(UserKey _uKey, HANDLE _hSocket)
 }
 bool RoomInfo::quitUser(UserKey _uKey)
 {
-	std::vector<std::pair<UserKey, HANDLE>>::iterator it;
-	it = find_if(users.begin(), users.end(), [=](std::pair<UserKey, HANDLE>& e) {
+	std::vector<std::pair<UserKey, SOCKET>>::iterator it;
+	it = find_if(users.begin(), users.end(), [=](std::pair<UserKey, SOCKET>& e) {
 		if (e.first == _uKey)
 			return true;
 		else

@@ -140,26 +140,20 @@ DWORD WINAPI EchoThreadMain(LPVOID pComPort)
 			switch (msgType) {
 			case PROTOCOL::Client::Login::LOGIN:
 				std::getline(tmpSs, tmpStr, '|');
-				ul.add()
+				ul.add(tmpStr, handleInfo->hClntSock);
 				break;
-			case PROTOCOL::Client::Lobby::CONFIRMED:
-
-				break;
+			case PROTOCOL::Client::Lobby::CONFIRMED:	break;
 			case PROTOCOL::Client::Lobby::LOAD_LIST:
 
 				break;
 			case PROTOCOL::Client::Lobby::JOIN_ROOM:
 
 				break;
-			case PROTOCOL::Client::CreateRoom::CONFIRMED:
-
-				break;
+			case PROTOCOL::Client::CreateRoom::CONFIRMED:	break;
 			case PROTOCOL::Client::CreateRoom::CREATE_ROOM:
 
 				break;
-			case PROTOCOL::Client::Chatting::CONFIRMED:
-
-				break;
+			case PROTOCOL::Client::Chatting::CONFIRMED:	break;
 			case PROTOCOL::Client::Chatting::QUIT_ROOM:
 
 				break;

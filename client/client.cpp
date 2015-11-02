@@ -2,11 +2,16 @@
 
 #define _CRT_SECURE_NO_WARNINGS
 
+#include <iostream>
+#include <string>
+#include <sstream>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <Windows.h>
 #include <process.h>
+
+#include "clntHeader.h"
 
 #define BUF_SIZE 100
 #define NAME_SIZE 20
@@ -43,6 +48,45 @@ int main(int argc, char * argv[])
 	if (connect(hSock, (SOCKADDR *)&servAdr, sizeof(servAdr)) == SOCKET_ERROR)
 		ErrorHandling("connect() error");
 	puts("connect() ok");
+
+	// Login stage
+	//		get nick name
+	//		serialization
+	//		send file
+	std::string nick;
+	std::stringstream buf;
+	std::cout << std::endl << std::endl;
+	std::cout << "========================================" << std::endl;
+	std::cout << "New guest connected." << std::endl;
+	std::cout << "Put your nickname: " << std::endl;
+	std::cin >> nick;
+	//		serialization
+	buf << PROTOCOL::Client::Login::LOGIN << '|' << nick << '|';
+	//		send file
+	//rev	buf를 전송 구현. 서버에서 컨펌 받으면 다음으로 진행
+
+
+	// Lobby stage
+	//		show gameroom list
+	//		Display menu
+	//		Take menu number and Do it
+	std::cout << std::endl << std::endl;
+
+
+
+	// CreatingRoom stage
+	//		Take title of the new room
+	std::cout << std::endl << std::endl;
+	
+
+
+	// Chatting stage
+	//		Chatting
+	//		Taking menu operations.
+	std::cout << std::endl << std::endl;
+
+
+	//
 
 	hSndThread = (HANDLE)_beginthreadex(NULL, 0, SendMsg, (void *)&hSock, 0, NULL);
 	hRcvThread = (HANDLE)_beginthreadex(NULL, 0, RecvMsg, (void *)&hSock, 0, NULL);

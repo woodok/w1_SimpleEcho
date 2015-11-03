@@ -50,26 +50,35 @@ int main(int argc, char * argv[])
 	puts("connect() ok");
 
 	// Login stage
-	//		get nick name
+	//		get nickname
 	//		serialization
 	//		send file
+	//		
+	//		get nickname
 	std::string nick;
 	std::stringstream buf;
+	bool servConfirmed = false;
 	std::cout << std::endl << std::endl;
 	std::cout << "========================================" << std::endl;
 	std::cout << "New guest connected." << std::endl;
-	std::cout << "Put your nickname: " << std::endl;
-	std::cin >> nick;
-	//		serialization
-	buf << PROTOCOL::Client::Login::LOGIN << '|' << nick << '|';
-	//		send file
-	//rev	buf를 전송 구현. 서버에서 컨펌 받으면 다음으로 진행
+	do{
+		std::cout << "Put your nickname: " << std::endl;
+		std::cin >> nick;
+		//		serialization
+		//buf = PROTOCOL::Client::Login::LOGIN + '|' + nick + '|';
+		buf << PROTOCOL::Client::Login::LOGIN << '|' << nick << '|';
+		//		send file
+		//rev	buf를 전송 구현. 서버에서 컨펌 받으면 다음으로 진행
+		int buflen = buf.str().length();
+		send(hSock, buf.str().c_str(), buflen, 0);
+		
 
 
 	// Lobby stage
 	//		show gameroom list
 	//		Display menu
 	//		Take menu number and Do it
+	//
 	std::cout << std::endl << std::endl;
 
 

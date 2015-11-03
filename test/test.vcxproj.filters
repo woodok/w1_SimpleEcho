@@ -24,5 +24,11 @@
     <ClCompile Include="stringstream_int.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="stringstream_lengthCheck.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="string_accumulator.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

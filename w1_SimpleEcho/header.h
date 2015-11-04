@@ -16,6 +16,8 @@
 #include "functions.h"
 #include "protocol.h"
 
+#define BUF_SIZE 1000
+
 typedef int UserKey;
 typedef int RoomKey;
 

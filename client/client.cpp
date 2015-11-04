@@ -29,6 +29,8 @@ int main(int argc, char * argv[])
 	SOCKET hSock;
 	SOCKADDR_IN servAdr;
 	HANDLE hSndThread, hRcvThread;
+	char cbuf[BUF_SIZE];
+
 	if (argc != 4) {
 		printf("Usage: %s <IP> <port> <name>\n", argv[0]);
 		exit(1);
@@ -56,30 +58,43 @@ int main(int argc, char * argv[])
 	//		
 	//		get nickname
 	std::string nick;
-	std::stringstream buf;
-	bool servConfirmed = false;
+	std::stringstream ssbuf;
+	int servConfirmed;
 	std::cout << std::endl << std::endl;
 	std::cout << "========================================" << std::endl;
 	std::cout << "New guest connected." << std::endl;
-	do{
+	while (1) {
 		std::cout << "Put your nickname: " << std::endl;
 		std::cin >> nick;
 		//		serialization
-		//buf = PROTOCOL::Client::Login::LOGIN + '|' + nick + '|';
-		buf << PROTOCOL::Client::Login::LOGIN << '|' << nick << '|';
+		//buf = PROTOCOL::Client::Login::LOGIN + '|' + nick + '|';		//rev error. why??
+		ssbuf << PROTOCOL::Client::Login::LOGIN << '|' << nick << '|';
 		//		send file
-		//rev	buf를 전송 구현. 서버에서 컨펌 받으면 다음으로 진행
-		int buflen = buf.str().length();
-		send(hSock, buf.str().c_str(), buflen, 0);
-		
-
+		int buflen = ssbuf.str().length();
+		send(hSock, ssbuf.str().c_str(), buflen, 0);
+		recv(hSock, cbuf, BUF_SIZE - 1, 0);
+		ssbuf << cbuf;
+		servConfirmed = std::stoi(ssbuf.str());		//rev getline() 먼저 사용
+		if (servConfirmed == PROTOCOL::Server::Login::LOGIN_OK) {
+			break;
+		}
+		std::cout << "The nickname was not accepted. Try new nickname" << std::endl;
+	}
 
 	// Lobby stage
 	//		show gameroom list
 	//		Display menu
 	//		Take menu number and Do it
 	//
+	//?? stringstream 초기화 하는 방법..?
+	//?? cbuf에 여러번 받아올 시 cbuf 초기화 없이 그냥 계속 써도 되나..?
+	send(hSock, )
 	std::cout << std::endl << std::endl;
+	std::cout << "========================================" << std::endl;
+	std::cout << "Load room list.." << std::endl;
+	std::cout << "Room list" << std::endl;
+	std::cout << "Room#\t\t" << "Title\t\t" << "current people\t\t" << "Room status" << std::endl;
+
 
 
 

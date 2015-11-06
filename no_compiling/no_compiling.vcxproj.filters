@@ -54,5 +54,20 @@
     <ClCompile Include="..\test\reference_param.cpp">
       <Filter>소스 파일\test</Filter>
     </ClCompile>
+    <ClCompile Include="..\test\string.cpp">
+      <Filter>소스 파일\test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test\string_accumulator.cpp">
+      <Filter>소스 파일\test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test\stringstream.cpp">
+      <Filter>소스 파일\test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test\stringstream_int.cpp">
+      <Filter>소스 파일\test</Filter>
+    </ClCompile>
+    <ClCompile Include="..\test\stringstream_lengthCheck.cpp">
+      <Filter>소스 파일\test</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

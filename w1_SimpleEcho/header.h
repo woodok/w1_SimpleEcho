@@ -190,4 +190,6 @@ public:
 	void print() const;
 };
 
+void reset_sstream(std::stringstream& ss);
+
 #endif // !__HEADER_H_

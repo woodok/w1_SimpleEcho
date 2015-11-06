@@ -51,59 +51,83 @@ int main(int argc, char * argv[])
 		ErrorHandling("connect() error");
 	puts("connect() ok");
 
+	std::string sbuf;
+	std::stringstream ssbuf;
 	// Login stage
 	//		get nickname
 	//		serialization
 	//		send file
 	//		
 	//		get nickname
-	std::string nick;
-	std::stringstream ssbuf;
-	int servConfirmed;
 	std::cout << std::endl << std::endl;
 	std::cout << "========================================" << std::endl;
 	std::cout << "New guest connected." << std::endl;
 	while (1) {
+		std::string nick;
+		int servConfirmed;
 		std::cout << "Put your nickname: " << std::endl;
 		std::cin >> nick;
 		//		serialization
-		//buf = PROTOCOL::Client::Login::LOGIN + '|' + nick + '|';		//rev error. why??
 		ssbuf << PROTOCOL::Client::Login::LOGIN << '|' << nick << '|';
 		//		send file
-		int buflen = ssbuf.str().length();
-		send(hSock, ssbuf.str().c_str(), buflen, 0);
+		sbuf = ssbuf.str();
+		send(hSock, sbuf.c_str(), sbuf.length(), 0);
+		//		earning server confirm
 		recv(hSock, cbuf, BUF_SIZE - 1, 0);
+		reset_sstream(ssbuf);	// reset sstream
 		ssbuf << cbuf;
-		servConfirmed = std::stoi(ssbuf.str());		//rev getline() 먼저 사용
+		std::getline(ssbuf, sbuf, '|');
+		servConfirmed = std::stoi(sbuf);
 		if (servConfirmed == PROTOCOL::Server::Login::LOGIN_OK) {
 			break;
 		}
 		std::cout << "The nickname was not accepted. Try new nickname" << std::endl;
 	}
 
-	// Lobby stage
-	//		show gameroom list
-	//		Display menu
-	//		Take menu number and Do it
+	reset_sstream(ssbuf);
+	ssbuf << PROTOCOL::Client::Lobby::LOAD_LIST << '|';
+	sbuf = ssbuf.str();
+	send(hSock, sbuf.c_str(), sbuf.length(), 0);
+
+
+	// State machine
+	//		distribute state
 	//
-	//?? stringstream 초기화 하는 방법..?
-	//?? cbuf에 여러번 받아올 시 cbuf 초기화 없이 그냥 계속 써도 되나..?
-	send(hSock, )
-	std::cout << std::endl << std::endl;
-	std::cout << "========================================" << std::endl;
-	std::cout << "Load room list.." << std::endl;
-	std::cout << "Room list" << std::endl;
-	std::cout << "Room#\t\t" << "Title\t\t" << "current people\t\t" << "Room status" << std::endl;
+	int msglen;
+	int state;
+	bool exitFlag = false;
+	while (1)
+	{
+		recv(hSock, cbuf, BUF_SIZE - 1, 0);
+		reset_sstream(ssbuf);
+		ssbuf << cbuf;
+		std::getline(ssbuf, sbuf, '|');
+		state = std::stoi(sbuf);
+		
+		//rev 각 proc_%%% 작업 중.. 접속 정보를 어떻게 넘겨줄 것인가?
+		if (state > PROTOCOL::Client::Lobby::NO_MEANING_FIRST && state < PROTOCOL::Client::Lobby::NO_MEANING_LAST) {
+			proc_lobby(ssbuf, state, exitFlag);
+		}
+		else if (state > PROTOCOL::Client::CreateRoom::NO_MEANING_FIRST && state < PROTOCOL::Client::CreateRoom::NO_MEANING_LAST) {
+			proc_createRoom(ssbuf, state, exitFlag);
+		}
+		else if (state > PROTOCOL::Client::Chatting::NO_MEANING_FIRST && state < PROTOCOL::Client::Chatting::NO_MEANING_LAST){
+			proc_chatting(ssbuf, state, exitFlag);
+		}
+		if (exitFlag == true)
+		{
+			std::cout << "quit game.." << std::endl;
+			break;
+		}
+	}
 
-
-
+	// Wrap up process		//rev
+	//
 
 	// CreatingRoom stage
 	//		Take title of the new room
 	std::cout << std::endl << std::endl;
 	
-
-
 	// Chatting stage
 	//		Chatting
 	//		Taking menu operations.
@@ -111,7 +135,6 @@ int main(int argc, char * argv[])
 
 
 	//
-
 	hSndThread = (HANDLE)_beginthreadex(NULL, 0, SendMsg, (void *)&hSock, 0, NULL);
 	hRcvThread = (HANDLE)_beginthreadex(NULL, 0, RecvMsg, (void *)&hSock, 0, NULL);
 	puts("thread creation ok");

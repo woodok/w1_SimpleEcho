@@ -228,3 +228,9 @@ void RoomInfoList::print() const
 	std::cout << "end()" << std::endl;
 	std::cout << "----------------------------------------------------------------" << std::endl;
 }
+
+void reset_sstream(std::stringstream& ss)
+{
+	ss.str(std::string());
+	ss.clear();
+}

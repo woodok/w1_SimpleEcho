@@ -1,0 +1,14 @@
+==== questions ====
+ㅁ 
+
+
+
+
+
+==== 해결 ====
+
+ㅁ cbuf에 여러번 받아올 시 cbuf 초기화 없이 그냥 계속 써도 되나..?
+	-> 되는 듯..
+ㅁ stringstream  초기화 방법..?
+	-> ss.clear(); ss.str(std::string());
+	

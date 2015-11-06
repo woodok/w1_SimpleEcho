@@ -21,6 +21,9 @@
     <Text Include="ToDo.txt">
       <Filter>소스 파일</Filter>
     </Text>
+    <Text Include="question.txt">
+      <Filter>소스 파일</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header.h">

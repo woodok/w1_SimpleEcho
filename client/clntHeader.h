@@ -5,6 +5,10 @@
 #include "../w1_SimpleEcho/header.h"
 #include "../w1_SimpleEcho/protocol.h"
 
+void proc_lobby(std::stringstream& ss, int _state, bool& _exitFlag);
+void proc_createRoom(std::stringstream& ss, int _state, bool& _exitFlag);
+void proc_chatting(std::stringstream& ss, int _state, bool& _exitFlag);
+
 typedef struct UInfo
 {
 	std::string uKey;		// userkey
@@ -30,11 +34,11 @@ typedef struct RInfo
 
 typedef struct ConnetionInfo
 {
-	WSADATA wsaData;
 	SOCKET hSocket;
-	SOCKADDR_IN servAdr;
+	int state;
+	
 
-} ConnectionInfo;
+} ConInfo;
 // buffer for data incoming client 
 typedef struct ToClntBuffer
 {
@@ -59,6 +63,7 @@ public:
 public:
 	ToServBuffer();
 } ToServBuffer;
+
 //namespace client
 //{
 //	void LoginProcess();
@@ -80,33 +85,33 @@ public:
 //	}
 //}
 
-int receiving(const ConnectionInfo& conInfo, ToClntBuffer& recvBuf, std::stringstream& ssBuf);
-int sending(const ConnectionInfo& conInfo, const std::stringstream& ssBuf);
-
-void stateDistinguisher(const ConnectionInfo& conInfo, int& state, int& msgLen);
-
-void decoding(std::stringstream&& origSs, Buffer& decodedBuf);		//rev 
-
-//?? class FSM을 정의해 상속하는건..?
-//		인터페이스 사용하고.
-class ClientFSM
-{
-	enum {
-		STATE_LOGIN,
-		STATE_LOBBY,
-		STATE_CREATINGROOM,
-		STATE_CHATTING,
-		STATE_QUIT
-	};
-private:
-	int state;
-public:
-	ClientFSM();
-	void init();
-	void running();
-	
-	
-};
+//int receiving(const ConnectionInfo& conInfo, ToClntBuffer& recvBuf, std::stringstream& ssBuf);
+//int sending(const ConnectionInfo& conInfo, const std::stringstream& ssBuf);
+//
+//void stateDistinguisher(const ConnectionInfo& conInfo, int& state, int& msgLen);
+//
+//void decoding(std::stringstream&& origSs, Buffer& decodedBuf);		//rev 
+//
+////?? class FSM을 정의해 상속하는건..?
+////		인터페이스 사용하고.
+//class ClientFSM
+//{
+//	enum {
+//		STATE_LOGIN,
+//		STATE_LOBBY,
+//		STATE_CREATINGROOM,
+//		STATE_CHATTING,
+//		STATE_QUIT
+//	};
+//private:
+//	int state;
+//public:
+//	ClientFSM();
+//	void init();
+//	void running();
+//	
+//	
+//};
 
 ////?? 이렇게 겹치는게 많으니 
 ////		class State를 정의해 상속하는건..?

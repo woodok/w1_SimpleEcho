@@ -1,5 +1,42 @@
 #include "clntHeader.h"
 
+
+void proc_lobby(std::stringstream& ss, int _state, bool& _exitFlag)
+{
+	// display lobby
+	//		show gameroom list
+	//		Display menu
+	//		Take menu number and Do it
+	//
+	//		show gameroom list. 
+	while (1) {
+		recv(hSock, cbuf, BUF_SIZE - 1, 0);
+		reset_sstream(ssbuf);		// reset sstream
+		ssbuf << cbuf;
+		std::getline(ssbuf, sbuf, '|');
+		if (std::stoi(sbuf) == PROTOCOL::Server::Lobby::DATA_READY) {
+			std::getline(ssbuf, sbuf, '|');
+			msglen = std::stoi(sbuf);
+		}
+	}
+
+	//send(hSock, )		//rev
+	std::cout << std::endl << std::endl;
+	std::cout << "========================================" << std::endl;
+	std::cout << "Load room list.." << std::endl;
+	std::cout << "Room list" << std::endl;
+	std::cout << "Room#\t\t" << "Title\t\t" << "current people\t\t" << "Room status" << std::endl;
+
+}
+void proc_createRoom(std::stringstream& ss, int _state, bool& _exitFlag)
+{
+
+}
+void proc_chatting(std::stringstream& ss, int _state, bool& _exitFlag)
+{
+
+}
+
 UInfo::UInfo()
 {
 	uKey = USER_INFO::DEFAULT_USER_KEY;

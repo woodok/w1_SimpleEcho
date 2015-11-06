@@ -79,6 +79,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <Text Include="question.txt" />
     <Text Include="readme.txt" />
     <Text Include="ToDo.txt" />
   </ItemGroup>

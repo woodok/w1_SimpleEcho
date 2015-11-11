@@ -16,17 +16,17 @@
 #include "functions.h"
 #include "protocol.h"
 
-#define BUF_SIZE 1000
+//#define BUF_SIZE 1000
 
 typedef int UserKey;
 typedef int RoomKey;
 
-const char * server_address = "198.0.0.1";		//? loopback 林家 嘎唱..?
+const char * server_address = "127.0.0.1";		//? loopback 林家 嘎唱..?
 const char * server_port = "9190";
 
 namespace MYCONST
 {
-	const int BUF_SIZE = 1000;
+	static const int BUF_SIZE = 1000;
 
 }
 namespace USER_INFO

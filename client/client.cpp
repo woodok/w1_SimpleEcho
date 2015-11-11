@@ -106,13 +106,13 @@ int main(int argc, char * argv[])
 		
 		//rev 각 proc_%%% 작업 중.. 접속 정보를 어떻게 넘겨줄 것인가?
 		if (state > PROTOCOL::Client::Lobby::NO_MEANING_FIRST && state < PROTOCOL::Client::Lobby::NO_MEANING_LAST) {
-			proc_lobby(ssbuf, state, exitFlag);
+			proc_lobby(ssbuf, hSock, state, exitFlag);
 		}
 		else if (state > PROTOCOL::Client::CreateRoom::NO_MEANING_FIRST && state < PROTOCOL::Client::CreateRoom::NO_MEANING_LAST) {
-			proc_createRoom(ssbuf, state, exitFlag);
+			proc_createRoom(ssbuf, hSock, state, exitFlag);
 		}
 		else if (state > PROTOCOL::Client::Chatting::NO_MEANING_FIRST && state < PROTOCOL::Client::Chatting::NO_MEANING_LAST){
-			proc_chatting(ssbuf, state, exitFlag);
+			proc_chatting(ssbuf, hSock, state, exitFlag);
 		}
 		if (exitFlag == true)
 		{

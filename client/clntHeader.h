@@ -5,7 +5,7 @@
 #include "../w1_SimpleEcho/header.h"
 #include "../w1_SimpleEcho/protocol.h"
 
-void proc_lobby(std::stringstream& ss, SOCKET hSock, int _state, bool& _exitFlag);
+void proc_lobby(std::stringstream& _ssbuf, const SOCKET _hSock, int _state, bool& _exitFlag);
 void proc_createRoom(std::stringstream& ss, SOCKET hSock, int _state, bool& _exitFlag);
 void proc_chatting(std::stringstream& ss, SOCKET hSock, int _state, bool& _exitFlag);
 

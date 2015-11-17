@@ -23,6 +23,13 @@ void ErrorHandling(char * msg);
 char name[NAME_SIZE] = "[DEFAULT]";
 char msg[BUF_SIZE];
 
+// Global variables for thread
+std::string sbuf;
+std::stringstream ssbuf;
+int msglen = 0;
+int state = 0;
+bool exitFlag = false;
+
 int main(int argc, char * argv[])
 {
 	WSADATA wsaData;
@@ -51,8 +58,6 @@ int main(int argc, char * argv[])
 		ErrorHandling("connect() error");
 	puts("connect() ok");
 
-	std::string sbuf;
-	std::stringstream ssbuf;
 	// Login stage
 	//		get nickname
 	//		serialization
@@ -89,37 +94,11 @@ int main(int argc, char * argv[])
 	sbuf = ssbuf.str();
 	send(hSock, sbuf.c_str(), sbuf.length(), 0);
 
-
-	// State machine
-	//		distribute state
-	//
-	int msglen;
-	int state;
-	bool exitFlag = false;
-	while (1)
-	{
-		recv(hSock, cbuf, BUF_SIZE - 1, 0);
-		reset_sstream(ssbuf);
-		ssbuf << cbuf;
-		std::getline(ssbuf, sbuf, '|');
-		state = std::stoi(sbuf);
-		
-		//rev 각 proc_%%% 작업 중.. 접속 정보를 어떻게 넘겨줄 것인가?
-		if (state > PROTOCOL::Client::Lobby::NO_MEANING_FIRST && state < PROTOCOL::Client::Lobby::NO_MEANING_LAST) {
-			proc_lobby(ssbuf, hSock, state, exitFlag);
-		}
-		else if (state > PROTOCOL::Client::CreateRoom::NO_MEANING_FIRST && state < PROTOCOL::Client::CreateRoom::NO_MEANING_LAST) {
-			proc_createRoom(ssbuf, hSock, state, exitFlag);
-		}
-		else if (state > PROTOCOL::Client::Chatting::NO_MEANING_FIRST && state < PROTOCOL::Client::Chatting::NO_MEANING_LAST){
-			proc_chatting(ssbuf, hSock, state, exitFlag);
-		}
-		if (exitFlag == true)
-		{
-			std::cout << "quit game.." << std::endl;
-			break;
-		}
-	}
+	recv(hSock, cbuf, BUF_SIZE - 1, 0);
+	reset_sstream(ssbuf);
+	ssbuf << cbuf;
+	std::getline(ssbuf, sbuf, '|');
+	state = std::stoi(sbuf);
 
 	// Wrap up process		//rev
 	//
@@ -171,14 +150,43 @@ unsigned WINAPI RecvMsg(void * arg)
 	int hSock = *((SOCKET*)arg);
 	char nameMsg[NAME_SIZE + BUF_SIZE];
 	int strLen;
+
+	// State machine
+	//		distribute state
+	//
 	while (1)
+	{
+		//rev 각 proc_%%% 작업 중.. 접속 정보를 어떻게 넘겨줄 것인가?
+		if (state > PROTOCOL::Client::Lobby::NO_MEANING_FIRST && state < PROTOCOL::Client::Lobby::NO_MEANING_LAST) {
+			proc_lobby(ssbuf, hSock, state, exitFlag);
+		}
+		else if (state > PROTOCOL::Client::CreateRoom::NO_MEANING_FIRST && state < PROTOCOL::Client::CreateRoom::NO_MEANING_LAST) {
+			proc_createRoom(ssbuf, hSock, state, exitFlag);
+		}
+		else if (state > PROTOCOL::Client::Chatting::NO_MEANING_FIRST && state < PROTOCOL::Client::Chatting::NO_MEANING_LAST){
+			proc_chatting(ssbuf, hSock, state, exitFlag);
+		}
+		else {
+			std::cout << "Error occred: unexpected type of message received." << std::endl;
+			std::cout << "Client close" << std::endl;
+			break;
+		}
+		if (exitFlag == true)
+		{
+			std::cout << "quit game.." << std::endl;
+			break;
+		}
+	}
+
+	/*while (1)
 	{
 		strLen = recv(hSock, nameMsg, NAME_SIZE + BUF_SIZE - 1, 0);
 		if (strLen == -1)
 			return -1;
 		nameMsg[strLen] = 0;
 		fputs(nameMsg, stdout);
-	}
+	}*/
+
 	return 0;
 }
 

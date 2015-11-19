@@ -15,6 +15,18 @@ void proc_lobby(std::stringstream& _ssbuf, const SOCKET _hSock, int _state, bool
 
 	switch (_state)
 	{
+	case PROTOCOL::Server::Lobby::INIT:
+		reset_sstream(_ssbuf);
+		_ssbuf << PROTOCOL::Client::Lobby::LOAD_LIST << '|';
+		sbuf = _ssbuf.str();
+		send(_hSock, sbuf.c_str(), sbuf.length(), 0);
+
+		recv(_hSock, cbuf, MYCONST::BUF_SIZE - 1, 0);
+		reset_sstream(_ssbuf);
+		_ssbuf << cbuf;
+		std::getline(_ssbuf, sbuf, '|');
+		_state = std::stoi(sbuf);
+		break;
 	case PROTOCOL::Server::Lobby::DATA_READY:
 		std::getline(_ssbuf, sbuf, '|');	// _ssbuf deserializing
 		msglen = std::stoi(sbuf);		// get msglen from _ssbuf
@@ -34,18 +46,63 @@ void proc_lobby(std::stringstream& _ssbuf, const SOCKET _hSock, int _state, bool
 		std::cout << "Load room list.." << std::endl;
 		std::cout << "Room list" << std::endl;
 		std::cout << "Room#\t\t" << "Title\t\t" << "current people\t\t" << "Room status" << std::endl;
-		//rev _ssbuf 잘라서 출력
+	
+		int lineChange = 0;
+		while (std::getline(_ssbuf, sbuf, '|')) {
+			std::cout << sbuf << "\t\t";
+			lineChange++;
+			if ((lineChange %= 4) == 0)
+				std::cout << std::endl;			
+		}
 
+		// Room list print completed. Now waiting for user's choice.
+		int menuSel = 0;
+		bool menuExitFlag = true;
+		do {
+			std::cout << "Select menu? 1) Join room   2) Create new room   3) Reload list   0) Quit" << std::endl;
+			std::cout << ">> " << std::endl;
+			std::cin >> menuSel;
+			switch (menuSel) {
+			case 1:
+				//rev Join room 선택한 경우 이후 과정. 방번호 물어보고 이를 서버에 전송
+
+				break;
+			case 2:
+				_state = PROTOCOL::Server::CreateRoom::INIT;
+				break;
+			case 3:
+				_state = PROTOCOL::Server::Lobby::INIT;
+				break;
+			case 0:
+				std::cout << "Choose to exit." << std::endl;
+				_exitFlag = true;
+				break;
+			default:
+				std::cout << "Wrong input. Try again." << std::endl;
+				menuExitFlag = false;
+				break;
+			}
+		} while (!menuExitFlag);
+		
 		break;		
-	//case PROTOCOL::Server::Lobby::LOAD_LIST:	break;
 	case PROTOCOL::Server::Lobby::CREATE_ROOM_OK:
-
+		_state = PROTOCOL::Server::CreateRoom::INIT;
 		break;
 	case PROTOCOL::Server::Lobby::JOIN_ROOM_OK:
-
+		_state = PROTOCOL::Server::Chatting::INIT;
 		break;
-	case PROTOCOL::Server::Lobby::CREATE_ROOM_FAIL:		break;
-	case PROTOCOL::Server::Lobby::JOIN_ROOM_FAIL:		break;
+	case PROTOCOL::Server::Lobby::CREATE_ROOM_FAIL:		
+		std::cout << "Create room failed." << std::endl;
+		std::cout << "Get back to lobby.." << std::endl;
+		_state = PROTOCOL::Server::Lobby::INIT;
+		break;
+	case PROTOCOL::Server::Lobby::JOIN_ROOM_FAIL:		
+		std::cout << "Join room failed." << std::endl;
+		_state = PROTOCOL::Server::Lobby::INIT;
+		break;
+	case PROTOCOL::Server::Lobby::LOAD_LIST:	
+		//rev 이건 필요 없을 듯..
+		break;
 	}
 
 	while (1) {

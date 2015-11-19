@@ -89,16 +89,40 @@ int main(int argc, char * argv[])
 		std::cout << "The nickname was not accepted. Try new nickname" << std::endl;
 	}
 
-	reset_sstream(ssbuf);
-	ssbuf << PROTOCOL::Client::Lobby::LOAD_LIST << '|';
-	sbuf = ssbuf.str();
-	send(hSock, sbuf.c_str(), sbuf.length(), 0);
 
-	recv(hSock, cbuf, BUF_SIZE - 1, 0);
-	reset_sstream(ssbuf);
-	ssbuf << cbuf;
-	std::getline(ssbuf, sbuf, '|');
-	state = std::stoi(sbuf);
+	//
+	hSndThread = (HANDLE)_beginthreadex(NULL, 0, SendMsg, (void *)&hSock, 0, NULL);
+	hRcvThread = (HANDLE)_beginthreadex(NULL, 0, RecvMsg, (void *)&hSock, 0, NULL);
+	puts("thread creation ok");
+	puts("All things set. You go.");
+
+	// State machine
+	//		distribute state
+	//
+	while (1)
+	{
+		//rev 각 proc_%%% 작업 중.. 접속 정보를 어떻게 넘겨줄 것인가?
+		if (state > PROTOCOL::Client::Lobby::NO_MEANING_FIRST && state < PROTOCOL::Client::Lobby::NO_MEANING_LAST) {
+			proc_lobby(ssbuf, hSock, state, exitFlag);
+		}
+		else if (state > PROTOCOL::Client::CreateRoom::NO_MEANING_FIRST && state < PROTOCOL::Client::CreateRoom::NO_MEANING_LAST) {
+			proc_createRoom(ssbuf, hSock, state, exitFlag);
+		}
+		else if (state > PROTOCOL::Client::Chatting::NO_MEANING_FIRST && state < PROTOCOL::Client::Chatting::NO_MEANING_LAST){
+			proc_chatting(ssbuf, hSock, state, exitFlag);
+		}
+		else {
+			std::cout << "Error occred: unexpected type of message received." << std::endl;
+			std::cout << "Client close" << std::endl;
+			break;
+		}
+
+		if (exitFlag == true)
+		{
+			std::cout << "quit game.." << std::endl;
+			break;
+		}
+	}
 
 	// Wrap up process		//rev
 	//
@@ -111,13 +135,6 @@ int main(int argc, char * argv[])
 	//		Chatting
 	//		Taking menu operations.
 	std::cout << std::endl << std::endl;
-
-
-	//
-	hSndThread = (HANDLE)_beginthreadex(NULL, 0, SendMsg, (void *)&hSock, 0, NULL);
-	hRcvThread = (HANDLE)_beginthreadex(NULL, 0, RecvMsg, (void *)&hSock, 0, NULL);
-	puts("thread creation ok");
-	puts("All things set. You go.");
 
 	WaitForSingleObject(hSndThread, INFINITE);
 	WaitForSingleObject(hRcvThread, INFINITE);
@@ -151,32 +168,7 @@ unsigned WINAPI RecvMsg(void * arg)
 	char nameMsg[NAME_SIZE + BUF_SIZE];
 	int strLen;
 
-	// State machine
-	//		distribute state
-	//
-	while (1)
-	{
-		//rev 각 proc_%%% 작업 중.. 접속 정보를 어떻게 넘겨줄 것인가?
-		if (state > PROTOCOL::Client::Lobby::NO_MEANING_FIRST && state < PROTOCOL::Client::Lobby::NO_MEANING_LAST) {
-			proc_lobby(ssbuf, hSock, state, exitFlag);
-		}
-		else if (state > PROTOCOL::Client::CreateRoom::NO_MEANING_FIRST && state < PROTOCOL::Client::CreateRoom::NO_MEANING_LAST) {
-			proc_createRoom(ssbuf, hSock, state, exitFlag);
-		}
-		else if (state > PROTOCOL::Client::Chatting::NO_MEANING_FIRST && state < PROTOCOL::Client::Chatting::NO_MEANING_LAST){
-			proc_chatting(ssbuf, hSock, state, exitFlag);
-		}
-		else {
-			std::cout << "Error occred: unexpected type of message received." << std::endl;
-			std::cout << "Client close" << std::endl;
-			break;
-		}
-		if (exitFlag == true)
-		{
-			std::cout << "quit game.." << std::endl;
-			break;
-		}
-	}
+
 
 	/*while (1)
 	{

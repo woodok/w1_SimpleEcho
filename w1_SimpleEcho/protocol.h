@@ -93,12 +93,13 @@ namespace PROTOCOL
 			enum{
 				NO_MEANING_FIRST = Login::NO_MEANING_LAST,	// no meaning
 				// meaningful protocol keyword place from here
-				DATA_READY,
-				CREATE_ROOM_OK,
-				CREATE_ROOM_FAIL,
-				JOIN_ROOM_OK,
-				JOIN_ROOM_FAIL,
-				LOAD_LIST,
+				INIT,			// lobby 에 처음 들어온 상태
+				DATA_READY,		// 
+				CREATE_ROOM_OK,		//
+				CREATE_ROOM_FAIL,	//
+				JOIN_ROOM_OK,	//
+				JOIN_ROOM_FAIL,	//
+				LOAD_LIST,		//rev 이건 안쓰일 듯..
 				NO_MEANING_LAST		// no meaning
 			};
 		}
@@ -107,6 +108,7 @@ namespace PROTOCOL
 			enum {
 				NO_MEANING_FIRST = Lobby::NO_MEANING_LAST,	// no meaning
 				// meaningful protocol keyword place from here
+				INIT,
 				DATA_READY,
 				CREATE_ROOM_OK,
 				CREATE_ROOM_FAIL,
@@ -118,6 +120,7 @@ namespace PROTOCOL
 			enum {
 				NO_MEANING_FIRST = CreateRoom::NO_MEANING_LAST,	// no meaning
 				// meaningful protocol keyword place from here
+				INIT,
 				DATA_READY,
 				QUIT_USER,
 				JOIN_USER,

@@ -94,11 +94,11 @@ namespace PROTOCOL
 				NO_MEANING_FIRST = Login::NO_MEANING_LAST,	// no meaning
 				// meaningful protocol keyword place from here
 				INIT,			// lobby 에 처음 들어온 상태
-				DATA_READY,		// 
-				CREATE_ROOM_OK,		//
-				CREATE_ROOM_FAIL,	//
-				JOIN_ROOM_OK,	//
-				JOIN_ROOM_FAIL,	//
+				DATA_READY,		// 서버에서 데이터패킹 완료, 전송 대기 상태
+				CREATE_ROOM_OK,		// 방 생성이 가능해 CreateRoom state로 넘어감
+				CREATE_ROOM_FAIL,	// 방 생성 최대수에 도달해 방생성 불가능
+				JOIN_ROOM_OK,	// 
+				JOIN_ROOM_FAIL,	// 
 				LOAD_LIST,		//rev 이건 안쓰일 듯..
 				NO_MEANING_LAST		// no meaning
 			};

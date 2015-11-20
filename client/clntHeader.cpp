@@ -58,32 +58,39 @@ void proc_lobby(std::stringstream& _ssbuf, const SOCKET _hSock, int _state, bool
 		// Room list print completed. Now waiting for user's choice.
 		int menuSel = 0;
 		bool menuExitFlag = true;
-		do {
-			std::cout << "Select menu? 1) Join room   2) Create new room   3) Reload list   0) Quit" << std::endl;
-			std::cout << ">> " << std::endl;
-			std::cin >> menuSel;
-			switch (menuSel) {
-			case 1:
-				//rev Join room 선택한 경우 이후 과정. 방번호 물어보고 이를 서버에 전송
+		std::cout << "Select menu? 1) Join room   2) Create new room   3) Reload list   0) Quit" << std::endl;
+		std::cout << ">> " << std::endl;
+		std::cin >> menuSel;
+		switch (menuSel) {	// Lobby state 내 menu 선택지 처리문
+		case 1:
+			std::cout << "Put room number: ";
+			int roomNum;
+			std::cin >> roomNum;
+			reset_sstream(_ssbuf);
+			_ssbuf << PROTOCOL::Client::Lobby::JOIN_ROOM << '|' << roomNum << '|';
+			sbuf = _ssbuf.str();
+			send(_hSock, sbuf.c_str(), sbuf.length(), 0);
 
-				break;
-			case 2:
-				_state = PROTOCOL::Server::CreateRoom::INIT;
-				break;
-			case 3:
-				_state = PROTOCOL::Server::Lobby::INIT;
-				break;
-			case 0:
-				std::cout << "Choose to exit." << std::endl;
-				_exitFlag = true;
-				break;
-			default:
-				std::cout << "Wrong input. Try again." << std::endl;
-				menuExitFlag = false;
-				break;
-			}
-		} while (!menuExitFlag);
-		
+			recv(_hSock, cbuf, MYCONST::BUF_SIZE, 0);
+			reset_sstream(_ssbuf);
+			_ssbuf << cbuf;
+			_state = std::stoi(_ssbuf.str());
+			break;
+		case 2:
+			_state = PROTOCOL::Server::CreateRoom::INIT;
+			break;
+		case 3:
+			_state = PROTOCOL::Server::Lobby::INIT;
+			break;
+		case 0:
+			std::cout << "Choose to exit." << std::endl;
+			_exitFlag = true;
+			break;
+		default:
+			std::cout << "Wrong input. Try again." << std::endl;
+			menuExitFlag = false;
+			break;
+		}
 		break;		
 	case PROTOCOL::Server::Lobby::CREATE_ROOM_OK:
 		_state = PROTOCOL::Server::CreateRoom::INIT;
@@ -105,20 +112,41 @@ void proc_lobby(std::stringstream& _ssbuf, const SOCKET _hSock, int _state, bool
 		break;
 	}
 
-	while (1) {
-		recv(_hSock, cbuf, MYCONST::BUF_SIZE - 1, 0);
-		reset_sstream(_ssbuf);		// reset sstream
-		_ssbuf << cbuf;
-		std::getline(_ssbuf, sbuf, '|');
-		if (std::stoi(sbuf) == PROTOCOL::Server::Lobby::DATA_READY) {
-			std::getline(_ssbuf, sbuf, '|');
-			msglen = std::stoi(sbuf);
-		}
-	}
+	//while (1) {
+	//	recv(_hSock, cbuf, MYCONST::BUF_SIZE - 1, 0);
+	//	reset_sstream(_ssbuf);		// reset sstream
+	//	_ssbuf << cbuf;
+	//	std::getline(_ssbuf, sbuf, '|');
+	//	if (std::stoi(sbuf) == PROTOCOL::Server::Lobby::DATA_READY) {
+	//		std::getline(_ssbuf, sbuf, '|');
+	//		msglen = std::stoi(sbuf);
+	//	}
+	//}
 }
-void proc_createRoom(std::stringstream& ss, SOCKET hSock, int _state, bool& _exitFlag)
+void proc_createRoom(std::stringstream& _ssbuf, SOCKET _hSock, int _state, bool& _exitFlag)
 {
+	std::string rTitle;
 
+	switch (_state) {
+	case PROTOCOL::Server::CreateRoom::INIT:	
+		std::cout << "Create room.." << std::endl;
+		std::cout << "Put the title of the room: ";
+		std::cin >> rTitle;
+		
+		reset_sstream(_ssbuf);
+		_ssbuf << PROTOCOL::Client::CreateRoom::CREATE_ROOM << '|';
+		//rev 이 다음에 Chattig state로 넘어가야 하는데.. 
+		break;
+	case PROTOCOL::Server::CreateRoom::DATA_READY:
+		//rev 이건 필요 없을거 같은데..
+		break;
+	case PROTOCOL::Server::CreateRoom::CREATE_ROOM_OK:
+		//rev
+		break;
+	case PROTOCOL::Server::CreateRoom::CREATE_ROOM_FAIL:
+		_state = PROTOCOL::Server::CreateRoom::INIT;
+		break;
+	}
 }
 void proc_chatting(std::stringstream& ss, SOCKET hSock, int _state, bool& _exitFlag)
 {

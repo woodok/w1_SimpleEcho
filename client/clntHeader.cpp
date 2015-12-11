@@ -58,56 +58,62 @@ void proc_lobby(std::stringstream& _ssbuf, const SOCKET _hSock, int _state, bool
 		// Room list print completed. Now waiting for user's choice.
 		int menuSel = 0;
 		bool menuExitFlag = true;
-		std::cout << "Select menu? 1) Join room   2) Create new room   3) Reload list   0) Quit" << std::endl;
-		std::cout << ">> " << std::endl;
-		std::cin >> menuSel;
-		switch (menuSel) {	// Lobby state 내 menu 선택지 처리문
-		case 1:
-			std::cout << "Put room number: ";
-			int roomNum;
-			std::cin >> roomNum;
-			reset_sstream(_ssbuf);
-			_ssbuf << PROTOCOL::Client::Lobby::JOIN_ROOM << '|' << roomNum << '|';
-			sbuf = _ssbuf.str();
-			send(_hSock, sbuf.c_str(), sbuf.length(), 0);
+		
+		while (1) {
+			menuExitFlag = true;
+			std::cout << "Select menu? 1) Join room   2) Create new room   3) Reload list   0) Quit" << std::endl;
+			std::cout << ">> " << std::endl;
+			std::cin >> menuSel;
+			switch (menuSel) {	// Lobby state 내 menu 선택지 처리문
+			case 1:
+				std::cout << "Put room number: ";
+				int roomNum;
+				std::cin >> roomNum;
+				reset_sstream(_ssbuf);
+				_ssbuf << PROTOCOL::Client::Lobby::JOIN_ROOM << '|' << roomNum << '|';
+				sbuf = _ssbuf.str();
+				send(_hSock, sbuf.c_str(), sbuf.length(), 0);
 
-			recv(_hSock, cbuf, MYCONST::BUF_SIZE, 0);
-			reset_sstream(_ssbuf);
-			_ssbuf << cbuf;
-			_state = std::stoi(_ssbuf.str());
-			break;
-		case 2:
-			_state = PROTOCOL::Server::CreateRoom::INIT;
-			break;
-		case 3:
-			_state = PROTOCOL::Server::Lobby::INIT;
-			break;
-		case 0:
-			std::cout << "Choose to exit." << std::endl;
-			_exitFlag = true;
-			break;
-		default:
-			std::cout << "Wrong input. Try again." << std::endl;
-			menuExitFlag = false;
-			break;
+				recv(_hSock, cbuf, MYCONST::BUF_SIZE, 0);
+				reset_sstream(_ssbuf);
+				_ssbuf << cbuf;
+				_state = std::stoi(_ssbuf.str());
+				break;
+			case 2:
+				_state = PROTOCOL::Server::CreateRoom::INIT;
+				break;
+			case 3:
+				_state = PROTOCOL::Server::Lobby::INIT;
+				break;
+			case 0:
+				std::cout << "Choose to exit." << std::endl;
+				_exitFlag = true;
+				break;
+			default:
+				std::cout << "Wrong input. Try again." << std::endl;
+				menuExitFlag = false;
+				break;
+			}
+			if (menuExitFlag == true)
+				break;
 		}
-		break;		
+		break;
 	case PROTOCOL::Server::Lobby::CREATE_ROOM_OK:
 		_state = PROTOCOL::Server::CreateRoom::INIT;
 		break;
 	case PROTOCOL::Server::Lobby::JOIN_ROOM_OK:
 		_state = PROTOCOL::Server::Chatting::INIT;
 		break;
-	case PROTOCOL::Server::Lobby::CREATE_ROOM_FAIL:		
+	case PROTOCOL::Server::Lobby::CREATE_ROOM_FAIL:
 		std::cout << "Create room failed." << std::endl;
 		std::cout << "Get back to lobby.." << std::endl;
 		_state = PROTOCOL::Server::Lobby::INIT;
 		break;
-	case PROTOCOL::Server::Lobby::JOIN_ROOM_FAIL:		
+	case PROTOCOL::Server::Lobby::JOIN_ROOM_FAIL:
 		std::cout << "Join room failed." << std::endl;
 		_state = PROTOCOL::Server::Lobby::INIT;
 		break;
-	case PROTOCOL::Server::Lobby::LOAD_LIST:	
+	case PROTOCOL::Server::Lobby::LOAD_LIST:
 		//rev 이건 필요 없을 듯..
 		break;
 	}
